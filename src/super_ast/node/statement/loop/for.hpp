@@ -12,7 +12,7 @@ namespace super_ast
 		Expression* post_iteration_;
 
 	public:
-		For(Statement* initialization, Expression* condition,
+		For(Expression* initialization, Expression* condition,
 			Expression post_iteration, Block* body);
 		~For();
 
