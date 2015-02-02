@@ -5,23 +5,23 @@
 
 namespace super_ast
 {
-	class Declaration : public Node
-	{
-	public:
-		enum DataType {
-			VOID,
-			BOOLEAN,
-			INTEGER,
-			DOUBLE,
-			STRING,
-			COLLECTION    // vectors, lists...
-			// ...
-		};
+    class Declaration : public Node
+    {
+    public:
+        enum DataType {
+            VOID,
+            BOOLEAN,
+            INTEGER,
+            DOUBLE,
+            STRING,
+            COLLECTION    // vectors, lists...
+            // ...
+        };
 
-	private:
-		std::string name_;
+    private:
+        std::string name_;
 
-	public:
-		const std::string& name() const;
-	};
+    public:
+        const std::string& name() const;
+    };
 }

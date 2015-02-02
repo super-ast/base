@@ -4,8 +4,8 @@
 
 namespace super_ast
 {
-	class Statement : public Node
-	{
-		
-	};
+    class Statement : public Node
+    {
+        
+    };
 }

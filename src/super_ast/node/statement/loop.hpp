@@ -5,14 +5,14 @@
 
 namespace super_ast
 {
-	class Loop : public Statement
-	{
-		Block* body_;
+    class Loop : public Statement
+    {
+        Block* body_;
 
-	public:
-		Loop(Block* body);
-		~Loop();
+    public:
+        Loop(Block* body);
+        ~Loop();
 
-		const Block& body() const;
-	};
+        const Block& body() const;
+    };
 }

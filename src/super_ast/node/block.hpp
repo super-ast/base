@@ -5,35 +5,35 @@
 
 namespace super_ast
 {
-	/**
-	 * A block is a list of statements
-	 */
-	class Block : public Node
-	{
-		std::vector<Statement*> statements_;
+    /**
+     * A block is a list of statements
+     */
+    class Block : public Node
+    {
+        std::vector<Statement*> statements_;
 
-	public:
-		Block();
-		~Block();
+    public:
+        Block();
+        ~Block();
 
-		/**
-		 * Adds the given statement at the end of this block
-		 */
-		void AppendStatement(Statement* statement);
+        /**
+         * Adds the given statement at the end of this block
+         */
+        void AppendStatement(Statement* statement);
 
-		
-		const std::vector<Statement*>& statements() const;
+        
+        const std::vector<Statement*>& statements() const;
 
-		/**
-		 * Returns the total number of loops in this block
-		 */
-		int LoopCount() const;
+        /**
+         * Returns the total number of loops in this block
+         */
+        int LoopCount() const;
 
-		/**
-		 * Returns the total number of conditionals in this block
-		 */
-		int ConditionalCount() const;
+        /**
+         * Returns the total number of conditionals in this block
+         */
+        int ConditionalCount() const;
 
-		// More API here...
-	};
+        // More API here...
+    };
 }
