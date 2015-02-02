@@ -24,10 +24,10 @@
 #include "super_ast/node/statement/loop.hpp"
 // ...
 
- // Expressions
- #include "super_ast/node/statement/expression/assignment.hpp"
- // ...
+// Expressions
+#include "super_ast/node/statement/expression/assignment.hpp"
+// ...
 
- // Loops
+// Loops
 #include "super_ast/node/statement/loop/for.hpp"
 #include "super_ast/node/statement/loop/while.hpp"
