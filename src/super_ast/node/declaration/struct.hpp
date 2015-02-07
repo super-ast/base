@@ -2,20 +2,21 @@
 
 #include "../declaration.hpp"
 #include "variable.hpp"
+#include <vector>
 
-namespace super_ast
-{
-    class Struct : public Declaration
-    {
-        // Maybe we could use a map if we need to reference attributes by its name (?)
-        std::vector<Variable*> attributes_;
+namespace super_ast {
+class Struct : public Declaration {
+public:
+    Struct(const std::string& name);
 
-    public:
-        Variable(const std::string& name);
-        ~Variable();
+    ~Struct();
 
-        void AddAttribute(Variable* attribute);
+    void AddAttribute(Struct* attribute);
 
-        const std::vector<Variable*> attributes() const;
-    };
+    const std::vector<Variable*> attributes() const;
+
+private:
+    // Maybe we could use a map if we need to reference attributes by its name (?)
+    std::vector<Variable*> attributes_;
+};
 }

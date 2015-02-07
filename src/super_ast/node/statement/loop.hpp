@@ -3,16 +3,16 @@
 #include "../statement.hpp"
 #include "../block.hpp"
 
-namespace super_ast
-{
-    class Loop : public Statement
-    {
-        Block* body_;
+namespace super_ast {
+class Loop : public Statement {
+public:
+    Loop(Block* body);
 
-    public:
-        Loop(Block* body);
-        ~Loop();
+    ~Loop();
 
-        const Block& body() const;
-    };
+    const Block& body() const;
+
+private:
+    Block* body_;
+};
 }

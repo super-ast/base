@@ -3,16 +3,16 @@
 #include "../loop.hpp"
 #include "../expression.hpp"
 
-namespace super_ast
-{
-    class While : public Loop
-    {
-        Expression* condition_;
+namespace super_ast {
+class While : public Loop {
+public:
+    While(Expression* condition, Block* body);
 
-    public:
-        While(Expression* condition, Block* body);
-        ~While();
+    ~While();
 
-        const Expression* condition() const;
-    };
+    const Expression& condition() const;
+
+private:
+    Expression* condition_;
+};
 }

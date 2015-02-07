@@ -1,6 +1,6 @@
 /**
- * Library include file
- */
+* Library include file
+*/
 
 // Node abstraction
 #include "super_ast/node.hpp"
@@ -31,3 +31,6 @@
 // Loops
 #include "super_ast/node/statement/loop/for.hpp"
 #include "super_ast/node/statement/loop/while.hpp"
+
+// Parser
+#include "super_ast/parser.hpp"

@@ -2,16 +2,16 @@
 
 #include "../declaration.hpp"
 
-namespace super_ast
-{
-    class Parameter : public Declaration
-    {
-        DataType parameter_type_;
+namespace super_ast {
+class Parameter : public Declaration {
+public:
+    Parameter(const std::string& name, DataType parameter_type);
 
-    public:
-        DataType(const std::string& name, DataType parameter_type);
-        ~DataType();
-        
-        DataType parameter_type() const;
-    };
+    ~Parameter();
+
+    DataType parameter_type() const;
+
+private:
+    DataType parameter_type_;
+};
 }
