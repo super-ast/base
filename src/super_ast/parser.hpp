@@ -2,6 +2,7 @@
 #include <iostream>
 
 namespace super_ast {
-const Block* parse(const std::string& json);
-const Block* parse(std::istream& stream);
+const Block* Parse(const std::string& json);
+
+const Block* Parse(std::istream& stream);
 }

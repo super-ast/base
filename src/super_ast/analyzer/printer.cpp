@@ -1,10 +1,10 @@
 #include "super_ast.hpp"
 
 int main() {
-    const super_ast::Block* ast = super_ast::parse(std::cin);
+  const super_ast::Block* ast = super_ast::Parse(std::cin);
 
-    ast->Print();
+  ast->Print();
 
-    delete ast;
-    return 0;
+  delete ast;
+  return 0;
 }

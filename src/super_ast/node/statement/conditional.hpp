@@ -6,23 +6,23 @@
 
 namespace super_ast {
 class Conditional : public Statement {
-    Expression* condition_;
-    Block* then_block_;
-    Block* else_block_;
+  Expression* condition_;
+  Block* then_block_;
+  Block* else_block_;
 
 public:
-    Conditional(Expression* condition, Block* then_block);
+  Conditional(Expression* condition, Block* then_block);
 
-    Conditional(Expression* condition, Block* then_block, Block* else_block);
+  Conditional(Expression* condition, Block* then_block, Block* else_block);
 
-    ~Conditional();
+  ~Conditional();
 
-    const Expression& condition() const;
+  const Expression& condition() const;
 
-    const Block& then_block() const;
+  const Block& then_block() const;
 
-    bool has_else_block() const;
+  bool has_else_block() const;
 
-    const Block& else_block() const;
+  const Block& else_block() const;
 };
 }

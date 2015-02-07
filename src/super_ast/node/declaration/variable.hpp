@@ -5,13 +5,13 @@
 namespace super_ast {
 class Variable : public Declaration {
 public:
-    Variable(const std::string& name, DataType variable_type);
+  Variable(const std::string& name, DataType variable_type);
 
-    ~Variable();
+  ~Variable();
 
-    DataType variable_type() const;
+  DataType variable_type() const;
 
 private:
-    DataType variable_type_;
+  DataType variable_type_;
 };
 }

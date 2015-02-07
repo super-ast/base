@@ -1,14 +1,10 @@
 {
-  "type": "block",
   "statements": [
     {
       "type": "function_declaration",
       "name": "main",
       "params": [],
-      "body": {
-        "type": "block",
-        "statements": []
-      }
+      "body": {}
     }
   ]
 }

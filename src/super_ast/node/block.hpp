@@ -10,31 +10,34 @@ namespace super_ast {
 */
 class Block : public Node {
 public:
-    Block();
+  Block();
 
-    ~Block();
+  ~Block();
 
-    /**
-    * Adds the given statement at the end of this block
-    */
-    void AppendStatement(Statement* statement);
+  /**
+  * Adds the given statement at the end of this block
+  */
+  void AppendStatement(Statement* statement);
+  virtual void PrintChildren(unsigned int depth) const;
 
 
-    const std::vector<Statement*>& statements() const;
+  const std::vector<Statement*>& statements() const;
 
-    /**
-    * Returns the total number of loops in this block
-    */
-    int LoopCount() const;
+  virtual std::string Representation() const;
 
-    /**
-    * Returns the total number of conditionals in this block
-    */
-    int ConditionalCount() const;
+  /**
+  * Returns the total number of loops in this block
+  */
+  int LoopCount() const;
 
-    // More API here...
+  /**
+  * Returns the total number of conditionals in this block
+  */
+  int ConditionalCount() const;
+
+  // More API here...
 
 private:
-    std::vector<Statement*> statements_;
+  std::vector<Statement*> statements_;
 };
 }

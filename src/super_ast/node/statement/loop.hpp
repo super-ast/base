@@ -6,13 +6,13 @@
 namespace super_ast {
 class Loop : public Statement {
 public:
-    Loop(Block* body);
+  Loop(Block* body);
 
-    ~Loop();
+  ~Loop();
 
-    const Block& body() const;
+  const Block& body() const;
 
 private:
-    Block* body_;
+  Block* body_;
 };
 }

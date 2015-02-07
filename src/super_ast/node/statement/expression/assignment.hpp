@@ -5,17 +5,17 @@
 
 namespace super_ast {
 class Assignment : public Expression {
-    std::string assignee_;
-    Expression* expression_;
+  std::string assignee_;
+  Expression* expression_;
 
 public:
-    Assignment(const std::string assignee, Expression* expression);
+  Assignment(const std::string assignee, Expression* expression);
 
-    ~Assignment();
+  ~Assignment();
 
-    const std::string& assignee() const;
+  const std::string& assignee() const;
 
-    const Expression& expression() const;
-    // ...
+  const Expression& expression() const;
+  // ...
 };
 }

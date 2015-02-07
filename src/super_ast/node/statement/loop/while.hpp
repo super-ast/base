@@ -6,13 +6,13 @@
 namespace super_ast {
 class While : public Loop {
 public:
-    While(Expression* condition, Block* body);
+  While(Expression* condition, Block* body);
 
-    ~While();
+  ~While();
 
-    const Expression& condition() const;
+  const Expression& condition() const;
 
 private:
-    Expression* condition_;
+  Expression* condition_;
 };
 }
