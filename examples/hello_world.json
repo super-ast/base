@@ -1,10 +1,37 @@
 {
   "statements": [
     {
-      "type": "function_declaration",
+      "type": "function-declaration",
       "name": "main",
+      "return-type": "int",
       "params": [],
-      "body": {}
+      "body": {
+        "statements": [
+          {
+            "type": "print",
+            "arguments": [
+              {
+                "left": {
+                  "type": "string",
+                  "value": "Hello world!"
+                },
+                "type": "+",
+                "right": {
+                  "type": "string",
+                  "value": "\n"
+                }
+              }
+            ]
+          },
+          {
+            "type": "return",
+            "value": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        ]
+      }
     }
   ]
 }

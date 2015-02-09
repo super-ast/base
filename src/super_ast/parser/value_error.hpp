@@ -6,12 +6,11 @@
 #include "rapidjson/writer.h"
 
 namespace super_ast {
-class AttributeError : public ParseError {
+class ValueError : public ParseError {
 public:
-  AttributeError(const std::string& attribute_name, const std::string& error,
-      const rapidjson::Value& node) {
+  ValueError(const rapidjson::Value& node) {
     std::stringstream ss;
-    ss << "'" << attribute_name << "' " << error << " in object:" << std::endl;
+    ss << "Invalid value:" << std::endl;
 
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);

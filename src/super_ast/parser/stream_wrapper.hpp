@@ -1,3 +1,4 @@
+#pragma once
 namespace super_ast {
 class StreamWrapper {
 public:

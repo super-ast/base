@@ -9,14 +9,42 @@ public:
   enum NodeType {
     UNKNOWN,
     BLOCK,
+
+    // - Statements
+    CONDITIONAL,
+
+    // -- Declarations
     DECLARATION,
-    PARAMETER,
+    FUNCTION_DECLARATION,
+    VARIABLE_DECLARATION,
+    PARAMETER_DECLARATION,
+    STRUCT_DECLARATION,
+
+    // -- Loops
     LOOP,
     FOR_LOOP,
     WHILE_LOOP,
+
+    // -- Expressions
     EXPRESSION,
     ASSIGNMENT,
-    CONDITIONAL
+
+    // --- Binary operators
+    ADDITION,
+    SUBTRACTION,
+    PRODUCT,
+
+    // --- Function calls
+    FUNCTION_CALL,
+    INPUT,
+    PRINT,
+
+    // --- Atoms
+    ATOM,
+    BOOLEAN,
+    INTEGER,
+    DOUBLE,
+    STRING,
     // ...
   };
 

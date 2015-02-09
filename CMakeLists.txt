@@ -7,10 +7,10 @@ set(SOURCE_FILES
     src/super_ast/node.cpp
     src/super_ast/parser.cpp
 
-    src/super_ast/node/declaration/function.cpp
-    src/super_ast/node/declaration/parameter.cpp
-    src/super_ast/node/declaration/struct.cpp
-    src/super_ast/node/declaration/variable.cpp
+    src/super_ast/node/statement/declaration/function_declaration.cpp
+    src/super_ast/node/statement/declaration/parameter_declaration.cpp
+    src/super_ast/node/statement/declaration/struct.cpp
+    src/super_ast/node/statement/declaration/variable.cpp
     src/super_ast/node/statement/expression/assignment.cpp
     src/super_ast/node/statement/loop/for.cpp
     src/super_ast/node/statement/loop/while.cpp
@@ -18,7 +18,7 @@ set(SOURCE_FILES
     src/super_ast/node/statement/expression.cpp
     src/super_ast/node/statement/loop.cpp
     src/super_ast/node/block.cpp
-    src/super_ast/node/declaration.cpp
+    src/super_ast/node/statement/declaration.cpp
     src/super_ast/node/statement.cpp
 )
 

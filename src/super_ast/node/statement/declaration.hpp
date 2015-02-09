@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../node.hpp"
+#include "../statement.hpp"
 #include <string>
 
 namespace super_ast {
-class Declaration : public Node {
+class Declaration : public Statement {
 public:
   enum DataType {
     VOID,
@@ -15,6 +15,8 @@ public:
     COLLECTION    // vectors, lists...
     // ...
   };
+
+  Declaration(const std::string& name);
 
   const std::string& name() const;
 
