@@ -3,7 +3,9 @@
     {
       "type": "function-declaration",
       "name": "main",
-      "return-type": "int",
+      "return-type": {
+        "name": "int"
+      },
       "params": [],
       "body": {
         "statements": [

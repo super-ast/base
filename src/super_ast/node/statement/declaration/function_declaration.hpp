@@ -9,20 +9,21 @@ namespace super_ast {
 class FunctionDeclaration : public Declaration {
 public:
   typedef Declaration super;
-  FunctionDeclaration(const std::string& name, DataType return_type,
-      const std::vector<ParameterDeclaration*>& parameters, Block* block);
+  FunctionDeclaration(const std::string& name, Type* return_type,
+      const std::vector<ParameterDeclaration*>& parameters, Block* body);
 
   ~FunctionDeclaration();
 
-  DataType return_type() const;
-
+  const Type& return_type() const;
   const std::vector<ParameterDeclaration*>& parameters() const;
+  const Block& body() const;
 
-  const Block& block() const;
+  virtual std::string Representation() const;
+  virtual void PrintChildren(unsigned int depth) const;
 
 private:
-  DataType return_type_;
+  Type* return_type_;
   std::vector<ParameterDeclaration*> parameters_;
-  Block* block_;
+  Block* body_;
 };
 }

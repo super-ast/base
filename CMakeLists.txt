@@ -20,6 +20,8 @@ set(SOURCE_FILES
     src/super_ast/node/block.cpp
     src/super_ast/node/statement/declaration.cpp
     src/super_ast/node/statement.cpp
+
+    src/super_ast/node/type.cpp
 )
 
 include_directories(

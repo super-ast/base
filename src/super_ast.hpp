@@ -7,6 +7,7 @@
 
 // Main nodes
 #include "super_ast/node/block.hpp"
+#include "super_ast/node/type.hpp"
 
 // - Statements
 #include "super_ast/node/statement.hpp"

@@ -13,7 +13,9 @@ Block* ParseBlock(const rapidjson::Value& block_def);
 Statement* ParseStatement(const rapidjson::Value& statement_def);
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def);
 ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def);
-Declaration::DataType ParseDataType(const rapidjson::Value& object, const std::string& attr);
+Type* ParseType(const rapidjson::Value& type_def);
+Type* ParseVectorType(const rapidjson::Value& vector_type_def);
+Type* FindTypeByName(const rapidjson::Value& type_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
 
 // Parser mappers
@@ -23,11 +25,18 @@ std::map<std::string, super_ast::StatementParser> statement_parsers = {
     // TODO: Complete
 };
 
-std::map<std::string, super_ast::Declaration::DataType> data_types = {
-    {"bool", Declaration::DataType::BOOLEAN},
-    {"int", Declaration::DataType::INTEGER},
-    {"string", Declaration::DataType::STRING},
-    // TODO: Complete
+typedef Type* (*TypeCreator)();
+std::map<std::string, TypeCreator> data_types = {
+    {"void", Type::Void},
+    {"bool", Type::Boolean},
+    {"int", Type::Integer},
+    {"double", Type::Double},
+    {"string", Type::String}
+};
+
+typedef Type* (*TypeParser)(const rapidjson::Value&);
+std::map<std::string, TypeParser> type_parsers = {
+    {"vector", ParseVectorType}
 };
 
 // Assertion utilities
@@ -110,7 +119,7 @@ Statement* ParseStatement(const rapidjson::Value& statement_def) {
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def) {
   assert_string(function_def, {"name"});
   assert_array(function_def, {"params"});
-  assert_object(function_def, {"body"});
+  assert_object(function_def, {"return-type", "body"});
 
   std::vector<ParameterDeclaration*> params;
   const rapidjson::Value& params_def = function_def["params"];
@@ -120,24 +129,42 @@ FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_
   }
 
   return new FunctionDeclaration(function_def["name"].GetString(),
-      ParseDataType(function_def, "return-type"), params, ParseBlock(function_def["body"]));
+      ParseType(function_def["return-type"]), params, ParseBlock(function_def["body"]));
 }
 
 ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def) {
   assert_string(param_def, {"name"});
+  assert_object(param_def, {"data-type"});
 
   return new ParameterDeclaration(param_def["name"].GetString(),
-      ParseDataType(param_def, "data-type"));
+      ParseType(param_def["data-type"]));
 }
 
-Declaration::DataType ParseDataType(const rapidjson::Value& object, const std::string& attr) {
-  assert_string(object, {attr});
+Type* ParseType(const rapidjson::Value& type_def) {
+  assert_string(type_def, {"name"});
 
-  if(data_types.find(object[attr.c_str()].GetString()) == data_types.end()) {
-    throw AttributeError(attr, "has an invalid value", object);
+  std::string name = type_def["name"].GetString();
+
+  if(data_types.find(name) != data_types.end()) {
+    return (*data_types[name])();
   }
 
-  return data_types[object[attr.c_str()].GetString()];
+  if(type_parsers.find(name) != type_parsers.end()) {
+    return (*type_parsers[name])(type_def);
+  }
+
+  return FindTypeByName(type_def);
+}
+
+Type* ParseVectorType(const rapidjson::Value& type_def) {
+  assert_object(type_def, {"subtype"});
+  return Type::Vector(ParseType(type_def["subtype"]));
+}
+
+Type* FindTypeByName(const rapidjson::Value& type_def) {
+  // TODO: I don't know if we really need this :/
+  // I'll leave it here, just in case
+  throw new AttributeError("name", "has an invalid value", type_def);
 }
 
 Expression* ParseExpression(const rapidjson::Value& function_def) {

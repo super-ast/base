@@ -1,18 +1,19 @@
 #pragma once
 
 #include "../declaration.hpp"
+#include "../../type.hpp"
 
 namespace super_ast {
 class ParameterDeclaration : public Declaration {
 public:
   typedef Declaration super;
-  ParameterDeclaration(const std::string& name, DataType parameter_type);
+  ParameterDeclaration(const std::string& name, Type* parameter_type);
 
   ~ParameterDeclaration();
 
-  DataType parameter_type() const;
+  const Type& parameter_type() const;
 
 private:
-  DataType parameter_type_;
+  Type* parameter_type_;
 };
 }
