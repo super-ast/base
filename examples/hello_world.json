@@ -10,7 +10,8 @@
       "body": {
         "statements": [
           {
-            "type": "print",
+            "type": "function-call",
+            "name": "print",
             "arguments": [
               {
                 "left": {

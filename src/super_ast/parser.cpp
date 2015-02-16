@@ -11,25 +11,30 @@ namespace {
 // Headers to enable recursion
 Block* ParseBlock(const rapidjson::Value& block_def);
 Statement* ParseStatement(const rapidjson::Value& statement_def);
+Statement* ParseReturn(const rapidjson::Value& return_def);
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def);
 ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def);
 Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
+Integer* ParseInteger(const rapidjson::Value& integer_def);
+String* ParseString(const rapidjson::Value& string_def);
+FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
 
 // Parser mappers
 typedef Statement* (*StatementParser)(const rapidjson::Value&);
 std::map<std::string, super_ast::StatementParser> statement_parsers = {
     {"function-declaration", (StatementParser) ParseFunctionDecalaration},
+    {"return",               (StatementParser) ParseReturn}
     // TODO: Complete
 };
 
 typedef Type* (*TypeCreator)();
 std::map<std::string, TypeCreator> data_types = {
-    {"void", Type::Void},
-    {"bool", Type::Boolean},
-    {"int", Type::Integer},
+    {"void",   Type::Void},
+    {"bool",   Type::Boolean},
+    {"int",    Type::Integer},
     {"double", Type::Double},
     {"string", Type::String}
 };
@@ -37,6 +42,27 @@ std::map<std::string, TypeCreator> data_types = {
 typedef Type* (*TypeParser)(const rapidjson::Value&);
 std::map<std::string, TypeParser> type_parsers = {
     {"vector", ParseVectorType}
+};
+
+std::map<std::string, BinaryOperator::Type> binary_operator_types = {
+    {"=",  BinaryOperator::ASSIGNMENT},
+    {"+",  BinaryOperator::ADDITION},
+    {"-",  BinaryOperator::SUBTRACTION},
+    {"*",  BinaryOperator::MULTIPLICATION},
+    {"/",  BinaryOperator::DIVISION},
+    {"%",  BinaryOperator::MODULO},
+    {"==", BinaryOperator::EQUAL},
+    {">=", BinaryOperator::GREATER_EQUAL},
+    {">",  BinaryOperator::GREATER},
+    {"<=", BinaryOperator::LESS_EQUAL},
+    {"<",  BinaryOperator::LESS}
+};
+
+typedef Atom* (*AtomParser)(const rapidjson::Value&);
+std::map<std::string, AtomParser> atom_parsers = {
+    {"int",           (AtomParser) ParseInteger},
+    {"string",        (AtomParser) ParseString},
+    {"function-call", (AtomParser) ParseFunctionCall}
 };
 
 // Assertion utilities
@@ -164,11 +190,58 @@ Type* ParseVectorType(const rapidjson::Value& type_def) {
 Type* FindTypeByName(const rapidjson::Value& type_def) {
   // TODO: I don't know if we really need this :/
   // I'll leave it here, just in case
-  throw new AttributeError("name", "has an invalid value", type_def);
+  throw AttributeError("name", "has an invalid value", type_def);
 }
 
-Expression* ParseExpression(const rapidjson::Value& function_def) {
-  return new Expression();
+Statement* ParseReturn(const rapidjson::Value& return_def) {
+  // TODO: Parse returns
+  return new Statement();
+}
+
+Expression* ParseExpression(const rapidjson::Value& expr_def) {
+  assert_string(expr_def, {"type"});
+
+  std::string type = expr_def["type"].GetString();
+
+  // TODO: Parse unary expressions
+
+  if(binary_operator_types.find(type) != binary_operator_types.end()) {
+    assert_object(expr_def, {"left", "right"});
+    return new BinaryOperator(binary_operator_types[type],
+        ParseExpression(expr_def["left"]), ParseExpression(expr_def["right"]));
+  }
+
+  if(atom_parsers.find(type) != atom_parsers.end()) {
+    return (*atom_parsers[type])(expr_def);
+  }
+
+  throw AttributeError("type", "has an invalid value", expr_def);
+}
+
+Integer* ParseInteger(const rapidjson::Value& integer_def) {
+  assert_int(integer_def, {"value"});
+
+  return new Integer(integer_def["value"].GetInt());
+}
+
+String* ParseString(const rapidjson::Value& string_def) {
+  assert_string(string_def, {"value"});
+
+  return new String(string_def["value"].GetString());
+}
+
+FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def) {
+  assert_string(function_call_def, {"name"});
+  assert_array(function_call_def, {"arguments"});
+
+  std::vector<Expression*> arguments;
+  const rapidjson::Value& arguments_def = function_call_def["arguments"];
+
+  for(int i = 0; i < arguments_def.Size(); ++i) {
+    arguments.push_back(ParseExpression(arguments_def[i]));
+  }
+
+  return new FunctionCall(function_call_def["name"].GetString(), arguments);
 }
 }
 
@@ -181,7 +254,7 @@ const Block* Parse(std::istream& stream) {
   try {
     return ParseBlock(d);
   } catch(ParseError& error) {
-    std::cerr << error.what() << std::endl;
+    std::cerr << "ERROR: " << error.what() << std::endl;
     std::exit(1);
   }
 }

@@ -4,7 +4,7 @@
 namespace super_ast {
 namespace {
 std::map<Type*, Type*> vector_types;
-const char* NativeStrings[] = {
+const std::string NativeStrings[] = {
     "void",
     "bool",
     "int",

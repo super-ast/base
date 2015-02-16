@@ -27,7 +27,13 @@
 
 // -- Expressions
 #include "super_ast/node/statement/expression.hpp"
-#include "super_ast/node/statement/expression/assignment.hpp"
+#include "super_ast/node/statement/expression/binary_operator.hpp"
+
+// --- Atoms
+#include "super_ast/node/statement/expression/atom.hpp"
+#include "super_ast/node/statement/expression/atom/function_call.hpp"
+#include "super_ast/node/statement/expression/atom/integer.hpp"
+#include "super_ast/node/statement/expression/atom/string.hpp"
 
 // Parser
 #include "super_ast/parser.hpp"
