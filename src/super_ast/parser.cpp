@@ -11,12 +11,12 @@ namespace {
 // Headers to enable recursion
 Block* ParseBlock(const rapidjson::Value& block_def);
 Statement* ParseStatement(const rapidjson::Value& statement_def);
-Statement* ParseReturn(const rapidjson::Value& return_def);
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def);
 ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def);
 Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
+Return* ParseReturn(const rapidjson::Value& return_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
 Integer* ParseInteger(const rapidjson::Value& integer_def);
 String* ParseString(const rapidjson::Value& string_def);
@@ -193,9 +193,10 @@ Type* FindTypeByName(const rapidjson::Value& type_def) {
   throw AttributeError("name", "has an invalid value", type_def);
 }
 
-Statement* ParseReturn(const rapidjson::Value& return_def) {
-  // TODO: Parse returns
-  return new Statement();
+Return* ParseReturn(const rapidjson::Value& return_def) {
+  assert_object(return_def, {"value"});
+
+  return new Return(ParseExpression(return_def["value"]));
 }
 
 Expression* ParseExpression(const rapidjson::Value& expr_def) {

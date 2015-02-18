@@ -12,6 +12,7 @@
 // - Statements
 #include "super_ast/node/statement.hpp"
 #include "super_ast/node/statement/conditional.hpp"
+#include "super_ast/node/statement/return.hpp"
 
 // -- Declarations
 #include "super_ast/node/statement/declaration.hpp"
