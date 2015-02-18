@@ -13,6 +13,9 @@ public:
 
   const Type& parameter_type() const;
 
+  std::string Representation() const;
+
+
 private:
   Type* parameter_type_;
 };

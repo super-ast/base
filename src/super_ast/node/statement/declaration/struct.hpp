@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../declaration.hpp"
-#include "variable.hpp"
+#include "variable_declaration.hpp"
 #include <vector>
 
 namespace super_ast {
@@ -13,10 +13,10 @@ public:
 
   void AddAttribute(Struct* attribute);
 
-  const std::vector<Variable*> attributes() const;
+  const std::vector<VariableDeclaration*> attributes() const;
 
 private:
   // Maybe we could use a map if we need to reference attributes by its name (?)
-  std::vector<Variable*> attributes_;
+  std::vector<VariableDeclaration*> attributes_;
 };
 }

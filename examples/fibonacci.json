@@ -1,0 +1,49 @@
+{
+  "statements": [
+    {
+      "line": 4,
+      "type": "function-declaration",
+      "name": "fibonacci",
+      "return-type": {
+        "name": "int"
+      },
+      "parameters": [
+        {
+          "name": "n",
+          "data-type": {
+            "name": "int"
+          }
+        }
+      ],
+      "block": {
+        "statements": [
+          {
+            "type": "conditional",
+            "condition": {
+              "left": {
+                "type": "identifier",
+                "name": "n"
+              },
+              "type": "<=",
+              "right": {
+                "type": "int",
+                "value": 1
+              }
+            },
+            "then": {
+              "statements": [
+                {
+                  "type": "return",
+                  "expression": {
+                    "type": "identifier",
+                    "name": "n"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

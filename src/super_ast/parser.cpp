@@ -8,6 +8,48 @@
 
 namespace super_ast {
 namespace {
+// Node
+#define TYPE_ATTR "type"
+
+// Statement
+#define LINE_ATTR "line"
+
+// Block
+#define BLOCK_STATEMENTS_ATTR "statements"
+
+// Conditional
+#define CONDITIONAL_CONDITION_ATTR  "condition"
+#define CONDITIONAL_THEN_BLOCK_ATTR "then"
+#define CONDITIONAL_ELSE_BLOCK_ATTR "else"
+
+// Binary operator
+#define BINARY_LEFT_ATTR  "left"
+#define BINARY_RIGHT_ATTR "right"
+
+// Function
+#define FUNCTION_NAME_ATTR        "name"
+#define FUNCTION_PARAMS_ATTR      "parameters"
+#define FUNCTION_ARGS_ATTR        "arguments"
+#define FUNCTION_RETURN_TYPE_ATTR "return-type"
+#define FUNCTION_BLOCK_ATTR       "block"
+
+// Param
+#define PARAM_NAME_ATTR      "name"
+#define PARAM_DATA_TYPE_ATTR "data-type"
+
+// Return
+#define RETURN_EXPRESSION_ATTR "expression"
+
+// Atom
+#define ATOM_VALUE_ATTR "value"
+
+// Type
+#define TYPE_NAME_ATTR "name"
+
+// Vector
+#define VECTOR_DATA_TYPE_ATTR "data-type"
+
+
 // Headers to enable recursion
 Block* ParseBlock(const rapidjson::Value& block_def);
 Statement* ParseStatement(const rapidjson::Value& statement_def);
@@ -17,6 +59,7 @@ Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
 Return* ParseReturn(const rapidjson::Value& return_def);
+Conditional* ParseConditional(const rapidjson::Value& conditional_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
 Integer* ParseInteger(const rapidjson::Value& integer_def);
 String* ParseString(const rapidjson::Value& string_def);
@@ -26,7 +69,8 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
 typedef Statement* (*StatementParser)(const rapidjson::Value&);
 std::map<std::string, super_ast::StatementParser> statement_parsers = {
     {"function-declaration", (StatementParser) ParseFunctionDecalaration},
-    {"return",               (StatementParser) ParseReturn}
+    {"return",               (StatementParser) ParseReturn},
+    {"conditional",          (StatementParser) ParseConditional}
     // TODO: Complete
 };
 
@@ -114,12 +158,20 @@ void assert_object(const rapidjson::Value& value, const std::vector<std::string>
   }
 }
 
+// Sets line number of statements
+void SetLine(Statement* statement, const rapidjson::Value& definition) {
+  if(definition.HasMember(LINE_ATTR)) {
+    assert_int(definition, {LINE_ATTR});
+    statement->set_line((unsigned int) definition[LINE_ATTR].GetInt());
+  }
+}
+
 // Node parsers
 Block* ParseBlock(const rapidjson::Value& block_def) {
-  assert_array(block_def, {"statements"});
+  assert_array(block_def, {BLOCK_STATEMENTS_ATTR});
 
   Block* block = new Block();
-  const rapidjson::Value& statements = block_def["statements"];
+  const rapidjson::Value& statements = block_def[BLOCK_STATEMENTS_ATTR];
 
   for(unsigned int i = 0; i < statements.Size(); ++i) {
     block->AppendStatement(ParseStatement(statements[i]));
@@ -129,12 +181,12 @@ Block* ParseBlock(const rapidjson::Value& block_def) {
 }
 
 Statement* ParseStatement(const rapidjson::Value& statement_def) {
-  assert_string(statement_def, {"type"});
+  assert_string(statement_def, {TYPE_ATTR});
 
   Statement* statement;
 
-  if(statement_parsers.find(statement_def["type"].GetString()) != statement_parsers.end()) {
-    statement = (*statement_parsers[statement_def["type"].GetString()])(statement_def);
+  if(statement_parsers.find(statement_def[TYPE_ATTR].GetString()) != statement_parsers.end()) {
+    statement = (*statement_parsers[statement_def[TYPE_ATTR].GetString()])(statement_def);
   } else {
     statement = ParseExpression(statement_def);
   }
@@ -143,33 +195,43 @@ Statement* ParseStatement(const rapidjson::Value& statement_def) {
 }
 
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def) {
-  assert_string(function_def, {"name"});
-  assert_array(function_def, {"params"});
-  assert_object(function_def, {"return-type", "body"});
+  assert_string(function_def, {FUNCTION_NAME_ATTR});
+  assert_array(function_def, {FUNCTION_PARAMS_ATTR});
+  assert_object(function_def, {FUNCTION_RETURN_TYPE_ATTR, FUNCTION_BLOCK_ATTR});
 
   std::vector<ParameterDeclaration*> params;
-  const rapidjson::Value& params_def = function_def["params"];
+  const rapidjson::Value& params_def = function_def[FUNCTION_PARAMS_ATTR];
 
   for(int i = 0; i < params_def.Size(); ++i) {
     params.push_back(ParseParameterDeclaration(params_def[i]));
   }
 
-  return new FunctionDeclaration(function_def["name"].GetString(),
-      ParseType(function_def["return-type"]), params, ParseBlock(function_def["body"]));
+  FunctionDeclaration* func_declaration = new FunctionDeclaration(
+      function_def[FUNCTION_NAME_ATTR].GetString(),
+      ParseType(function_def[FUNCTION_RETURN_TYPE_ATTR]),
+      params,
+      ParseBlock(function_def[FUNCTION_BLOCK_ATTR]));
+
+  SetLine(func_declaration, function_def);
+  return func_declaration;
 }
 
 ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def) {
-  assert_string(param_def, {"name"});
-  assert_object(param_def, {"data-type"});
+  assert_string(param_def, {PARAM_NAME_ATTR});
+  assert_object(param_def, {PARAM_DATA_TYPE_ATTR});
 
-  return new ParameterDeclaration(param_def["name"].GetString(),
-      ParseType(param_def["data-type"]));
+  ParameterDeclaration* param_declaration = new ParameterDeclaration(
+      param_def[PARAM_NAME_ATTR].GetString(),
+      ParseType(param_def[PARAM_DATA_TYPE_ATTR]));
+
+  SetLine(param_declaration, param_def);
+  return param_declaration;
 }
 
 Type* ParseType(const rapidjson::Value& type_def) {
-  assert_string(type_def, {"name"});
+  assert_string(type_def, {TYPE_NAME_ATTR});
 
-  std::string name = type_def["name"].GetString();
+  std::string name = type_def[TYPE_NAME_ATTR].GetString();
 
   if(data_types.find(name) != data_types.end()) {
     return (*data_types[name])();
@@ -183,66 +245,105 @@ Type* ParseType(const rapidjson::Value& type_def) {
 }
 
 Type* ParseVectorType(const rapidjson::Value& type_def) {
-  assert_object(type_def, {"subtype"});
-  return Type::Vector(ParseType(type_def["subtype"]));
+  assert_object(type_def, {VECTOR_DATA_TYPE_ATTR});
+  return Type::Vector(ParseType(type_def[VECTOR_DATA_TYPE_ATTR]));
 }
 
 Type* FindTypeByName(const rapidjson::Value& type_def) {
   // TODO: I don't know if we really need this :/
   // I'll leave it here, just in case
-  throw AttributeError("name", "has an invalid value", type_def);
+  throw AttributeError(TYPE_NAME_ATTR, "has an invalid value", type_def);
 }
 
 Return* ParseReturn(const rapidjson::Value& return_def) {
-  assert_object(return_def, {"value"});
+  assert_object(return_def, {RETURN_EXPRESSION_ATTR});
 
-  return new Return(ParseExpression(return_def["value"]));
+  Return* return_statement = new Return(ParseExpression(return_def[RETURN_EXPRESSION_ATTR]));
+
+  SetLine(return_statement, return_def);
+  return return_statement;
+}
+
+Conditional* ParseConditional(const rapidjson::Value& conditional_def) {
+  assert_object(conditional_def, {CONDITIONAL_CONDITION_ATTR, CONDITIONAL_THEN_BLOCK_ATTR});
+
+  Block* else_block = 0;
+
+  if(conditional_def.HasMember(CONDITIONAL_ELSE_BLOCK_ATTR)) {
+    assert_object(conditional_def, {CONDITIONAL_ELSE_BLOCK_ATTR});
+
+    else_block = ParseBlock(conditional_def[CONDITIONAL_ELSE_BLOCK_ATTR]);
+  }
+
+  Conditional* conditional = new Conditional(
+      ParseExpression(conditional_def[CONDITIONAL_CONDITION_ATTR]),
+      ParseBlock(conditional_def[CONDITIONAL_THEN_BLOCK_ATTR]),
+      else_block
+  );
+
+  SetLine(conditional, conditional_def);
+  return conditional;
 }
 
 Expression* ParseExpression(const rapidjson::Value& expr_def) {
-  assert_string(expr_def, {"type"});
+  assert_string(expr_def, {TYPE_ATTR});
 
-  std::string type = expr_def["type"].GetString();
+  std::string type = expr_def[TYPE_ATTR].GetString();
 
   // TODO: Parse unary expressions
 
   if(binary_operator_types.find(type) != binary_operator_types.end()) {
-    assert_object(expr_def, {"left", "right"});
-    return new BinaryOperator(binary_operator_types[type],
-        ParseExpression(expr_def["left"]), ParseExpression(expr_def["right"]));
+    assert_object(expr_def, {BINARY_LEFT_ATTR, BINARY_RIGHT_ATTR});
+    BinaryOperator* bin_operator = new BinaryOperator(binary_operator_types[type],
+        ParseExpression(expr_def[BINARY_LEFT_ATTR]),
+        ParseExpression(expr_def[BINARY_RIGHT_ATTR]));
+
+    SetLine(bin_operator, expr_def);
+    return bin_operator;
   }
 
   if(atom_parsers.find(type) != atom_parsers.end()) {
     return (*atom_parsers[type])(expr_def);
   }
 
-  throw AttributeError("type", "has an invalid value", expr_def);
+  throw AttributeError(TYPE_ATTR, "has an invalid value", expr_def);
 }
 
 Integer* ParseInteger(const rapidjson::Value& integer_def) {
-  assert_int(integer_def, {"value"});
+  assert_int(integer_def, {ATOM_VALUE_ATTR});
 
-  return new Integer(integer_def["value"].GetInt());
+  Integer* integer = new Integer(integer_def[ATOM_VALUE_ATTR].GetInt());
+
+  SetLine(integer, integer_def);
+  return integer;
 }
 
 String* ParseString(const rapidjson::Value& string_def) {
-  assert_string(string_def, {"value"});
+  assert_string(string_def, {ATOM_VALUE_ATTR});
 
-  return new String(string_def["value"].GetString());
+  String* string = new String(string_def[ATOM_VALUE_ATTR].GetString());
+
+  SetLine(string, string_def);
+  return string;
 }
 
 FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def) {
-  assert_string(function_call_def, {"name"});
-  assert_array(function_call_def, {"arguments"});
+  assert_string(function_call_def, {FUNCTION_NAME_ATTR});
+  assert_array(function_call_def, {FUNCTION_ARGS_ATTR});
 
   std::vector<Expression*> arguments;
-  const rapidjson::Value& arguments_def = function_call_def["arguments"];
+  const rapidjson::Value& arguments_def = function_call_def[FUNCTION_ARGS_ATTR];
 
   for(int i = 0; i < arguments_def.Size(); ++i) {
     arguments.push_back(ParseExpression(arguments_def[i]));
   }
 
-  return new FunctionCall(function_call_def["name"].GetString(), arguments);
+  FunctionCall* function_call = new FunctionCall(
+      function_call_def[FUNCTION_NAME_ATTR].GetString(),
+      arguments);
+
+  SetLine(function_call, function_call_def);
+  return function_call;
 }
 }
 

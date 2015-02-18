@@ -6,10 +6,6 @@
 
 namespace super_ast {
 class Conditional : public Statement {
-  Expression* condition_;
-  Block* then_block_;
-  Block* else_block_;
-
 public:
   Conditional(Expression* condition, Block* then_block);
 
@@ -18,11 +14,18 @@ public:
   ~Conditional();
 
   const Expression& condition() const;
-
   const Block& then_block() const;
-
   bool has_else_block() const;
-
   const Block& else_block() const;
+
+  std::string Representation() const;
+
+protected:
+  void PrintChildren(unsigned int depth) const;
+
+private:
+  Expression* condition_;
+  Block* then_block_;
+  Block* else_block_;
 };
 }

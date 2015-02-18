@@ -4,11 +4,11 @@
 #include "../../type.hpp"
 
 namespace super_ast {
-class Variable : public Declaration {
+class VariableDeclaration : public Declaration {
 public:
-  Variable(const std::string& name, Type* variable_type);
+  VariableDeclaration(const std::string& name, Type* variable_type);
 
-  ~Variable();
+  ~VariableDeclaration();
 
   const Type& variable_type() const;
 

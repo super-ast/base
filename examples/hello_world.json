@@ -1,25 +1,30 @@
 {
   "statements": [
     {
+      "line": 4,
       "type": "function-declaration",
       "name": "main",
       "return-type": {
         "name": "int"
       },
-      "params": [],
-      "body": {
+      "parameters": [],
+      "block": {
         "statements": [
           {
+            "line": 5,
             "type": "function-call",
             "name": "print",
             "arguments": [
               {
+                "line": 5,
                 "left": {
+                  "line": 5,
                   "type": "string",
                   "value": "Hello world!"
                 },
                 "type": "+",
                 "right": {
+                  "line": 5,
                   "type": "string",
                   "value": "\n"
                 }
@@ -27,8 +32,10 @@
             ]
           },
           {
+            "line": 6,
             "type": "return",
-            "value": {
+            "expression": {
+              "line": 6,
               "type": "int",
               "value": 0
             }
