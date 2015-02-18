@@ -19,61 +19,61 @@ Reads a `super_ast` in `JSON` format and prints the structure of the resulting `
   3. If an attribute is marked with `*` then that attribute is optional.
 
 ## Block
-Attribute  | Value
------------|----------
-statements | `array[Statement]`
+Attribute    | Value
+-------------|-------------
+statements   | `array[Statement]`
 
 ## Statement
-Attribute | Value
-----------|-----------
-`line`*   | `int`
+Attribute    | Value
+-------------|-------------
+`line`*      | `int`
 
 ### Conditional
-Attribute   | Value
-------------|-----------
-`type`      | `"conditional"`
-`condition` | `Expression`
-`then`      | `Block`
-`else`*     | `Block`
+Attribute    | Value
+-------------|-------------
+`type`       | `"conditional"`
+`condition`  | `Expression`
+`then`       | `Block`
+`else`*      | `Block`
 
 ### Return
 Attribute    | Value
--------------|----------
+-------------|-------------
 `type`       | `"return"`
 `expression` | `Expression`
 
 ### Expression
 #### Binary operator
-Attribute  | Value
------------|----------
-`type`     | `string(+|-|*|/|%|(=|<|>)=?)`
-`left`     | `Expression`
-`right`    | `Expression`
+Attribute    | Value
+-------------|-------------
+`type`       | `string` matching `+|-|*|/|%|(=|<|>)=?`
+`left`       | `Expression`
+`right`      | `Expression`
 
 #### Identifier
-Attribute  | Value
------------|----------
-`type`     | `"identifier"`
-`value`    | `string`
+Attribute    | Value
+-------------|-------------
+`type`       | `"identifier"`
+`value`      | `string`
 
 #### Integer
-Attribute  | Value
------------|----------
-`type`     | `"int"`
-`value`    | `int`
+Attribute    | Value
+-------------|-------------
+`type`       | `"int"`
+`value`      | `int`
 
 #### String
-Attribute  | Value
------------|----------
-`type`     | `"string"`
-`value`    | `string`
+Attribute    | Value
+-------------|-------------
+`type`       | `"string"`
+`value`      | `string`
 
 #### Function call
-Attribute   | Value
-------------|----------
-`type`      | `"function-call"`
-`name`      | `string`
-`arguments` | `array[Expression]`
+Attribute    | Value
+-------------|-------------
+`type`       | `"function-call"`
+`name`       | `string`
+`arguments`  | `array[Expression]`
 
 # Coding style
 Using ideas from [Google C++ Style Guide](http://google-styleguide.googlecode.com/svn/trunk/cppguide.html)
