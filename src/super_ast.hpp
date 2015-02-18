@@ -18,8 +18,8 @@
 #include "super_ast/node/statement/declaration.hpp"
 #include "super_ast/node/statement/declaration/function_declaration.hpp"
 #include "super_ast/node/statement/declaration/parameter_declaration.hpp"
-#include "super_ast/node/statement/declaration/struct.hpp"
-#include "super_ast/node/statement/declaration/variable.hpp"
+#include "super_ast/node/statement/declaration/struct_declaration.hpp"
+#include "super_ast/node/statement/declaration/variable_declaration.hpp"
 
 // -- Loops
 #include "super_ast/node/statement/loop.hpp"
@@ -33,6 +33,7 @@
 // --- Atoms
 #include "super_ast/node/statement/expression/atom.hpp"
 #include "super_ast/node/statement/expression/atom/function_call.hpp"
+#include "super_ast/node/statement/expression/atom/identifier.hpp"
 #include "super_ast/node/statement/expression/atom/integer.hpp"
 #include "super_ast/node/statement/expression/atom/string.hpp"
 

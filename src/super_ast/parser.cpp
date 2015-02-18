@@ -61,6 +61,7 @@ Type* FindTypeByName(const rapidjson::Value& type_def);
 Return* ParseReturn(const rapidjson::Value& return_def);
 Conditional* ParseConditional(const rapidjson::Value& conditional_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
+Identifier* ParseIdentifier(const rapidjson::Value& identifier_def);
 Integer* ParseInteger(const rapidjson::Value& integer_def);
 String* ParseString(const rapidjson::Value& string_def);
 FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
@@ -104,6 +105,7 @@ std::map<std::string, BinaryOperator::Type> binary_operator_types = {
 
 typedef Atom* (*AtomParser)(const rapidjson::Value&);
 std::map<std::string, AtomParser> atom_parsers = {
+    {"identifier",    (AtomParser) ParseIdentifier},
     {"int",           (AtomParser) ParseInteger},
     {"string",        (AtomParser) ParseString},
     {"function-call", (AtomParser) ParseFunctionCall}
@@ -307,6 +309,15 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
   }
 
   throw AttributeError(TYPE_ATTR, "has an invalid value", expr_def);
+}
+
+Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {
+  assert_string(identifier_def, {ATOM_VALUE_ATTR});
+
+  Identifier* identifier = new Identifier(identifier_def[ATOM_VALUE_ATTR].GetString());
+
+  SetLine(identifier, identifier_def);
+  return identifier;
 }
 
 Integer* ParseInteger(const rapidjson::Value& integer_def) {

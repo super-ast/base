@@ -22,7 +22,7 @@
             "condition": {
               "left": {
                 "type": "identifier",
-                "name": "n"
+                "value": "n"
               },
               "type": "<=",
               "right": {
@@ -36,10 +36,50 @@
                   "type": "return",
                   "expression": {
                     "type": "identifier",
-                    "name": "n"
+                    "value": "n"
                   }
                 }
               ]
+            }
+          },
+          {
+            "type": "return",
+            "expression": {
+              "left": {
+                "type": "function-call",
+                "name": "fibonacci",
+                "arguments": [
+                  {
+                    "left": {
+                      "type": "identifier",
+                      "value": "n"
+                    },
+                    "type": "-",
+                    "right": {
+                      "type": "int",
+                      "value": 1
+                    }
+                  }
+                ]
+              },
+              "type": "+",
+              "right": {
+                "type": "function-call",
+                "name": "fibonacci",
+                "arguments": [
+                  {
+                    "left": {
+                      "type": "identifier",
+                      "value": "n"
+                    },
+                    "type": "-",
+                    "right": {
+                      "type": "int",
+                      "value": 2
+                    }
+                  }
+                ]
+              }
             }
           }
         ]

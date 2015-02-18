@@ -5,13 +5,13 @@
 #include <vector>
 
 namespace super_ast {
-class Struct : public Declaration {
+class StructDeclaration : public Declaration {
 public:
-  Struct(const std::string& name);
+  StructDeclaration(const std::string& name);
 
-  ~Struct();
+  ~StructDeclaration();
 
-  void AddAttribute(Struct* attribute);
+  void AddAttribute(StructDeclaration* attribute);
 
   const std::vector<VariableDeclaration*> attributes() const;
 

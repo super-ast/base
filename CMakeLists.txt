@@ -17,7 +17,7 @@ set(SOURCE_FILES
     src/super_ast/node/statement/declaration.cpp
     src/super_ast/node/statement/declaration/function_declaration.cpp
     src/super_ast/node/statement/declaration/parameter_declaration.cpp
-    src/super_ast/node/statement/declaration/struct.cpp
+    src/super_ast/node/statement/declaration/struct_declaration.cpp
     src/super_ast/node/statement/declaration/variable_declaration.cpp
 
     src/super_ast/node/statement/expression.cpp
@@ -25,6 +25,7 @@ set(SOURCE_FILES
 
     src/super_ast/node/statement/expression/atom.cpp
     src/super_ast/node/statement/expression/atom/function_call.cpp
+    src/super_ast/node/statement/expression/atom/identifier.cpp
     src/super_ast/node/statement/expression/atom/integer.cpp
     src/super_ast/node/statement/expression/atom/string.cpp
 
