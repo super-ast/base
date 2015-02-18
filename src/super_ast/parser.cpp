@@ -63,7 +63,7 @@ namespace {
 Block* ParseBlock(const rapidjson::Value& block_def);
 Statement* ParseStatement(const rapidjson::Value& statement_def);
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def);
-ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def);
+VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def);
 Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
@@ -210,11 +210,11 @@ FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_
   assert_array(function_def, {FUNCTION_PARAMS_ATTR});
   assert_object(function_def, {FUNCTION_RETURN_TYPE_ATTR, FUNCTION_BLOCK_ATTR});
 
-  std::vector<ParameterDeclaration*> params;
+  std::vector<VariableDeclaration*> params;
   const rapidjson::Value& params_def = function_def[FUNCTION_PARAMS_ATTR];
 
   for(int i = 0; i < params_def.Size(); ++i) {
-    params.push_back(ParseParameterDeclaration(params_def[i]));
+    params.push_back(ParseVariableDeclaration(params_def[i]));
   }
 
   FunctionDeclaration* func_declaration = new FunctionDeclaration(
@@ -227,11 +227,11 @@ FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_
   return func_declaration;
 }
 
-ParameterDeclaration* ParseParameterDeclaration(const rapidjson::Value& param_def) {
+VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def) {
   assert_string(param_def, {PARAM_NAME_ATTR});
   assert_object(param_def, {PARAM_DATA_TYPE_ATTR});
 
-  ParameterDeclaration* param_declaration = new ParameterDeclaration(
+  VariableDeclaration* param_declaration = new VariableDeclaration(
       param_def[PARAM_NAME_ATTR].GetString(),
       ParseType(param_def[PARAM_DATA_TYPE_ATTR]));
 

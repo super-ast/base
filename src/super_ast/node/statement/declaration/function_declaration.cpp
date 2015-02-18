@@ -3,13 +3,13 @@
 
 namespace super_ast {
 FunctionDeclaration::FunctionDeclaration(const std::string& name, Type* return_type,
-    const std::vector<ParameterDeclaration*>& parameters, Block* body) : super(name), return_type_(return_type),
+    const std::vector<VariableDeclaration*>& parameters, Block* body) : super(name), return_type_(return_type),
     parameters_(parameters), body_(body) {
 
 }
 
 FunctionDeclaration::~FunctionDeclaration() {
-  for(ParameterDeclaration* parameter : parameters_) {
+  for(VariableDeclaration* parameter : parameters_) {
     delete parameter;
   }
 
@@ -21,7 +21,7 @@ const Type& FunctionDeclaration::return_type() const {
 }
 
 
-const std::vector<ParameterDeclaration*>& FunctionDeclaration::parameters() const {
+const std::vector<VariableDeclaration*>& FunctionDeclaration::parameters() const {
   return parameters_;
 }
 
@@ -38,7 +38,7 @@ std::string FunctionDeclaration::Representation() const {
 }
 
 void FunctionDeclaration::PrintChildren(unsigned int depth) const {
-  for(ParameterDeclaration* parameter : parameters_) {
+  for(VariableDeclaration* parameter : parameters_) {
     parameter->Print(depth);
   }
 

@@ -6,13 +6,17 @@
 namespace super_ast {
 class VariableDeclaration : public Declaration {
 public:
-  VariableDeclaration(const std::string& name, Type* variable_type);
+  typedef Declaration super;
+  VariableDeclaration(const std::string& name, Type* data_type);
 
   ~VariableDeclaration();
 
-  const Type& variable_type() const;
+  const Type& data_type() const;
+
+  std::string Representation() const;
+
 
 private:
-  Type* variable_type_;
+  Type* data_type_;
 };
 }

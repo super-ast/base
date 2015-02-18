@@ -12,6 +12,49 @@
 ## printer
 Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
 
+### Examples
+#### Hello world
+The input can be found in `examples/hello_world.json`.
+
+```
+BLOCK
+  FUNCTION int main
+    BLOCK
+      FUNCTION_CALL print
+        +
+          Hello world!
+          \n
+      RETURN
+        INT(0)
+```
+
+#### Fibonacci
+The input can be found in `examples/fibonacci.json`.
+
+```
+BLOCK
+  FUNCTION int fibonacci
+    VAR int n
+    BLOCK
+      CONDITIONAL
+        <=
+          ID(n)
+          INT(1)
+        BLOCK
+          RETURN
+            ID(n)
+      RETURN
+        +
+          FUNCTION_CALL fibonacci
+            -
+              ID(n)
+              INT(1)
+          FUNCTION_CALL fibonacci
+            -
+              ID(n)
+              INT(2)
+```
+
 # JSON format specification
   1. Every object in `JSON` represents a node of the `super_ast`.
   2. The root node of the `super_ast` is a `Block` node.
@@ -73,6 +116,35 @@ Attribute    | Value
 `type`       | `"function-call"`
 `name`       | `string`
 `arguments`  | `array[Expression]`
+
+### Declaration
+#### FunctionDeclaration
+Attribute     | Value
+--------------|-------------
+`type`        | `"function"`
+`name`        | `string`
+`parameters`  | `array[VariableDeclaration]`
+`return-type` | `Type`
+`block`       | `Block`
+
+#### VariableDeclaration
+Attribute    | Value
+-------------|-------------
+`type`       | `"variable"`
+`name`       | `string`
+`data-type`  | `Type`
+
+## Type
+### Simple
+Attribute    | Value
+-------------|-------------
+`name`       | `string(void, bool, int, double, string)`
+
+### Vector
+Attribute    | Value
+-------------|-------------
+`name`       | `"vector"`
+`data-type`  | `Type`
 
 # Coding style
 Using ideas from [Google C++ Style Guide](http://google-styleguide.googlecode.com/svn/trunk/cppguide.html)

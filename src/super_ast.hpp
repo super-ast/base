@@ -17,7 +17,6 @@
 // -- Declarations
 #include "super_ast/node/statement/declaration.hpp"
 #include "super_ast/node/statement/declaration/function_declaration.hpp"
-#include "super_ast/node/statement/declaration/parameter_declaration.hpp"
 #include "super_ast/node/statement/declaration/struct_declaration.hpp"
 #include "super_ast/node/statement/declaration/variable_declaration.hpp"
 

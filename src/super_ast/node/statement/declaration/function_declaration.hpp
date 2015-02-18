@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../declaration.hpp"
-#include "parameter_declaration.hpp"
+#include "variable_declaration.hpp"
 #include "../../block.hpp"
 #include <vector>
 
@@ -10,12 +10,12 @@ class FunctionDeclaration : public Declaration {
 public:
   typedef Declaration super;
   FunctionDeclaration(const std::string& name, Type* return_type,
-      const std::vector<ParameterDeclaration*>& parameters, Block* body);
+      const std::vector<VariableDeclaration*>& parameters, Block* body);
 
   ~FunctionDeclaration();
 
   const Type& return_type() const;
-  const std::vector<ParameterDeclaration*>& parameters() const;
+  const std::vector<VariableDeclaration*>& parameters() const;
   const Block& body() const;
 
   virtual std::string Representation() const;
@@ -23,7 +23,7 @@ public:
 
 private:
   Type* return_type_;
-  std::vector<ParameterDeclaration*> parameters_;
+  std::vector<VariableDeclaration*> parameters_;
   Block* body_;
 };
 }
