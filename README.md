@@ -12,7 +12,6 @@
 ## printer
 Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
 
-
 # JSON format specification
   1. Every object in `JSON` represents a node of the `super_ast`.
   2. The root node of the `super_ast` is a `Block` node.
@@ -21,7 +20,7 @@ Reads a `super_ast` in `JSON` format and prints the structure of the resulting `
 ## Block
 Attribute    | Value
 -------------|-------------
-statements   | `array[Statement]`
+`statements` | `array[Statement]`
 
 ## Statement
 Attribute    | Value
@@ -46,7 +45,7 @@ Attribute    | Value
 #### Binary operator
 Attribute    | Value
 -------------|-------------
-`type`       | `string` matching `+|-|*|/|%|(=|<|>)=?`
+`type`       | `string(+, -, *, %, =, <, >, ==, <=, >=)`
 `left`       | `Expression`
 `right`      | `Expression`
 
