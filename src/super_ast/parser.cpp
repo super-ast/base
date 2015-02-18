@@ -8,6 +8,7 @@
 
 namespace super_ast {
 namespace {
+// ATTRIBUTE NAMES
 // Node
 #define TYPE_ATTR "type"
 
@@ -49,6 +50,14 @@ namespace {
 // Vector
 #define VECTOR_DATA_TYPE_ATTR "data-type"
 
+
+// ERROR MESSAGES
+#define ERROR_NOT_FOUND     "not found"
+#define ERROR_NOT_STRING    "is not a string"
+#define ERROR_NOT_INTEGER   "is not an integer"
+#define ERROR_NOT_ARRAY     "is not an array"
+#define ERROR_NOT_OBJECT    "is not an object"
+#define ERROR_INVALID_VALUE "has an invalid value"
 
 // Headers to enable recursion
 Block* ParseBlock(const rapidjson::Value& block_def);
@@ -115,7 +124,7 @@ std::map<std::string, AtomParser> atom_parsers = {
 void assert_has(const rapidjson::Value& value, const std::vector<std::string>& attrs) {
   for(const std::string& attr : attrs) {
     if(!value.HasMember(attr.c_str())) {
-      throw AttributeError(attr, "not found", value);
+      throw AttributeError(attr, ERROR_NOT_FOUND, value);
     }
   }
 }
@@ -125,7 +134,7 @@ void assert_string(const rapidjson::Value& value, const std::vector<std::string>
 
   for(const std::string& attr : attrs) {
     if(!value[attr.c_str()].IsString()) {
-      throw AttributeError(attr, "is not a string", value);
+      throw AttributeError(attr, ERROR_NOT_STRING, value);
     }
   }
 }
@@ -135,7 +144,7 @@ void assert_int(const rapidjson::Value& value, const std::vector<std::string>& a
 
   for(const std::string& attr : attrs) {
     if(!value[attr.c_str()].IsInt()) {
-      throw AttributeError(attr, "is not an integer", value);
+      throw AttributeError(attr, ERROR_NOT_INTEGER, value);
     }
   }
 }
@@ -145,7 +154,7 @@ void assert_array(const rapidjson::Value& value, const std::vector<std::string>&
 
   for(const std::string& attr : attrs) {
     if(!value[attr.c_str()].IsArray()) {
-      throw AttributeError(attr, "is not an array", value);
+      throw AttributeError(attr, ERROR_NOT_ARRAY, value);
     }
   }
 }
@@ -155,7 +164,7 @@ void assert_object(const rapidjson::Value& value, const std::vector<std::string>
 
   for(const std::string& attr : attrs) {
     if(!value[attr.c_str()].IsObject()) {
-      throw AttributeError(attr, "is not an object", value);
+      throw AttributeError(attr, ERROR_NOT_OBJECT, value);
     }
   }
 }
@@ -254,7 +263,7 @@ Type* ParseVectorType(const rapidjson::Value& type_def) {
 Type* FindTypeByName(const rapidjson::Value& type_def) {
   // TODO: I don't know if we really need this :/
   // I'll leave it here, just in case
-  throw AttributeError(TYPE_NAME_ATTR, "has an invalid value", type_def);
+  throw AttributeError(TYPE_NAME_ATTR, ERROR_INVALID_VALUE, type_def);
 }
 
 Return* ParseReturn(const rapidjson::Value& return_def) {
@@ -308,7 +317,7 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
     return (*atom_parsers[type])(expr_def);
   }
 
-  throw AttributeError(TYPE_ATTR, "has an invalid value", expr_def);
+  throw AttributeError(TYPE_ATTR, ERROR_INVALID_VALUE, expr_def);
 }
 
 Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {
