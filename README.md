@@ -84,6 +84,23 @@ Attribute    | Value
 `type`       | `"return"`
 `expression` | `Expression`
 
+### Loop
+Attribute    | Value
+-------------|-------------
+`block`      | `Block`
+
+#### While
+Attribute    | Value
+-------------|-------------
+`condition`  | `Expression`
+
+#### For
+Attribute    | Value
+-------------|-------------
+`init`       | `Expression`
+`condition`  | `Expression`
+`post`       | `Expression`
+
 ### Expression
 #### Binary operator
 Attribute    | Value
