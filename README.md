@@ -147,7 +147,7 @@ Attribute     | Value
 #### VariableDeclaration
 Attribute    | Value
 -------------|-------------
-`type`       | `"variable"`
+`type`       | `"variable-declaration"`
 `name`       | `string`
 `data-type`  | `Type`
 
