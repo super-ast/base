@@ -12,6 +12,11 @@ public:
 
   const Block& body() const;
 
+  std::string Representation() const;
+
+protected:
+  void PrintChildren(unsigned int depth) const;
+
 private:
   Block* body_;
 };

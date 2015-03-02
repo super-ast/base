@@ -1,0 +1,113 @@
+{
+  "statements": [
+    {
+      "type": "function-declaration",
+      "name": "factorial",
+      "return-type": {
+        "name": "int"
+      },
+      "parameters": [
+        {
+          "name": "n",
+          "data-type": {
+            "name": "int"
+          }
+        }
+      ],
+      "block": {
+        "statements": [
+          {
+            "type": "variable-declaration",
+            "name": "f",
+            "data-type": {
+              "name": "int"
+            }
+          },
+          {
+            "type": "=",
+            "left": {
+              "type": "identifier",
+              "value": "f"
+            },
+            "right": {
+              "type": "int",
+              "value": 1
+            }
+          },
+          {
+            "type": "variable-declaration",
+            "name": "i",
+            "data-type": {
+              "name": "int"
+            }
+          },
+          {
+            "type": "for",
+            "init": {
+              "type": "=",
+              "left": {
+                "type": "identifier",
+                "value": "i"
+              },
+              "right": {
+                "type": "int",
+                "value": 1
+              }
+            },
+            "condition": {
+              "type": "<=",
+              "left": {
+                "type": "identifier",
+                "value": "i"
+              },
+              "right": {
+                "type": "identifier",
+                "value": "n"
+              }
+            },
+            "post": {
+              "type": "=",
+              "left": {
+                "type": "identifier",
+                "value": "i"
+              },
+              "right": {
+                "type": "+",
+                "left": {
+                  "type": "identifier",
+                  "value": "i"
+                },
+                "right": {
+                  "type": "int",
+                  "value": 1
+                }
+              }
+            },
+            "block": {
+              "statements": [
+                {
+                  "type": "=",
+                  "left": {
+                    "type": "identifier",
+                    "value": "f"
+                  },
+                  "right": {
+                    "type": "*",
+                    "left": {
+                      "type": "identifier",
+                      "value": "f"
+                    },
+                    "right": {
+                      "type": "identifier",
+                      "value": "i"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

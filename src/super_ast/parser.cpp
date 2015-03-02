@@ -23,6 +23,12 @@ namespace {
 #define CONDITIONAL_THEN_BLOCK_ATTR "then"
 #define CONDITIONAL_ELSE_BLOCK_ATTR "else"
 
+// Loop
+#define LOOP_INITIALIZATION_ATTR    "init"
+#define LOOP_CONDIITON_ATTR         "condition"
+#define LOOP_POST_ITERATION_ATTR    "post"
+#define LOOP_BLOCK_ATTR             "block"
+
 // Binary operator
 #define BINARY_LEFT_ATTR  "left"
 #define BINARY_RIGHT_ATTR "right"
@@ -69,6 +75,8 @@ Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
 Return* ParseReturn(const rapidjson::Value& return_def);
 Conditional* ParseConditional(const rapidjson::Value& conditional_def);
+While* ParseWhile(const rapidjson::Value& while_def);
+For* ParseFor(const rapidjson::Value& for_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
 Identifier* ParseIdentifier(const rapidjson::Value& identifier_def);
 Integer* ParseInteger(const rapidjson::Value& integer_def);
@@ -79,8 +87,11 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
 typedef Statement* (*StatementParser)(const rapidjson::Value&);
 std::map<std::string, super_ast::StatementParser> statement_parsers = {
     {"function-declaration", (StatementParser) ParseFunctionDecalaration},
+    {"variable-declaration", (StatementParser) ParseVariableDeclaration},
     {"return",               (StatementParser) ParseReturn},
-    {"conditional",          (StatementParser) ParseConditional}
+    {"conditional",          (StatementParser) ParseConditional},
+    {"while",                (StatementParser) ParseWhile},
+    {"for",                  (StatementParser) ParseFor}
     // TODO: Complete
 };
 
@@ -294,6 +305,32 @@ Conditional* ParseConditional(const rapidjson::Value& conditional_def) {
 
   SetLine(conditional, conditional_def);
   return conditional;
+}
+
+While* ParseWhile(const rapidjson::Value& while_def) {
+  assert_object(while_def, {LOOP_CONDIITON_ATTR, LOOP_BLOCK_ATTR});
+
+  While* whilE = new While(
+      ParseExpression(while_def[LOOP_CONDIITON_ATTR]),
+      ParseBlock(while_def[LOOP_BLOCK_ATTR])
+  );
+
+  SetLine(whilE, while_def);
+  return whilE;
+}
+
+For* ParseFor(const rapidjson::Value& for_def) {
+  assert_object(for_def, {LOOP_INITIALIZATION_ATTR, LOOP_CONDIITON_ATTR, LOOP_POST_ITERATION_ATTR, LOOP_BLOCK_ATTR});
+
+  For* foR = new For(
+      ParseExpression(for_def[LOOP_INITIALIZATION_ATTR]),
+      ParseExpression(for_def[LOOP_CONDIITON_ATTR]),
+      ParseExpression(for_def[LOOP_POST_ITERATION_ATTR]),
+      ParseBlock(for_def[LOOP_BLOCK_ATTR])
+  );
+
+  SetLine(foR, for_def);
+  return foR;
 }
 
 Expression* ParseExpression(const rapidjson::Value& expr_def) {
