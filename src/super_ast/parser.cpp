@@ -110,17 +110,19 @@ std::map<std::string, TypeParser> type_parsers = {
 };
 
 std::map<std::string, BinaryOperator::Type> binary_operator_types = {
-    {"=",  BinaryOperator::ASSIGNMENT},
-    {"+",  BinaryOperator::ADDITION},
-    {"-",  BinaryOperator::SUBTRACTION},
-    {"*",  BinaryOperator::MULTIPLICATION},
-    {"/",  BinaryOperator::DIVISION},
-    {"%",  BinaryOperator::MODULO},
-    {"==", BinaryOperator::EQUAL},
-    {">=", BinaryOperator::GREATER_EQUAL},
-    {">",  BinaryOperator::GREATER},
-    {"<=", BinaryOperator::LESS_EQUAL},
-    {"<",  BinaryOperator::LESS}
+    {"=",   BinaryOperator::ASSIGNMENT},
+    {"+",   BinaryOperator::ADDITION},
+    {"-",   BinaryOperator::SUBTRACTION},
+    {"*",   BinaryOperator::MULTIPLICATION},
+    {"/",   BinaryOperator::DIVISION},
+    {"%",   BinaryOperator::MODULO},
+    {"==",  BinaryOperator::EQUAL},
+    {">=",  BinaryOperator::GREATER_EQUAL},
+    {">",   BinaryOperator::GREATER},
+    {"<=",  BinaryOperator::LESS_EQUAL},
+    {"<",   BinaryOperator::LESS},
+    {"or",  BinaryOperator::OR},
+    {"and", BinaryOperator::AND}
 };
 
 typedef Atom* (*AtomParser)(const rapidjson::Value&);

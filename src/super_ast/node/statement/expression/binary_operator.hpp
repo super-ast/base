@@ -15,7 +15,9 @@ public:
     GREATER_EQUAL,
     GREATER,
     LESS_EQUAL,
-    LESS
+    LESS,
+    OR,
+    AND
   };
 
   BinaryOperator(Type type, Expression* left, Expression* right);

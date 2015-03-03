@@ -105,7 +105,7 @@ Attribute    | Value
 #### Binary operator
 Attribute    | Value
 -------------|-------------
-`type`       | `string(+, -, *, %, =, <, >, ==, <=, >=)`
+`type`       | `string(+, -, *, %, =, <, >, ==, <=, >=, or, and)`
 `left`       | `Expression`
 `right`      | `Expression`
 
