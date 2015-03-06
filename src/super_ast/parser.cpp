@@ -61,6 +61,7 @@ namespace {
 #define ERROR_NOT_FOUND     "not found"
 #define ERROR_NOT_STRING    "is not a string"
 #define ERROR_NOT_INTEGER   "is not an integer"
+#define ERROR_NOT_BOOLEAN   "is not a boolean"
 #define ERROR_NOT_ARRAY     "is not an array"
 #define ERROR_NOT_OBJECT    "is not an object"
 #define ERROR_INVALID_VALUE "has an invalid value"
@@ -143,45 +144,22 @@ void assert_has(const rapidjson::Value& value, const std::vector<std::string>& a
   }
 }
 
-void assert_string(const rapidjson::Value& value, const std::vector<std::string>& attrs) {
-  assert_has(value, attrs);
-
-  for(const std::string& attr : attrs) {
-    if(!value[attr.c_str()].IsString()) {
-      throw AttributeError(attr, ERROR_NOT_STRING, value);
-    }
-  }
+#define ASSERT_TYPE(name, method, error) \
+void assert_##name(const rapidjson::Value& value, const std::vector<std::string>& attrs) { \
+  assert_has(value, attrs); \
+  \
+  for(const std::string& attr : attrs) { \
+    if(!value[attr.c_str()].method()) { \
+      throw AttributeError(attr, error, value); \
+    } \
+  } \
 }
 
-void assert_int(const rapidjson::Value& value, const std::vector<std::string>& attrs) {
-  assert_has(value, attrs);
-
-  for(const std::string& attr : attrs) {
-    if(!value[attr.c_str()].IsInt()) {
-      throw AttributeError(attr, ERROR_NOT_INTEGER, value);
-    }
-  }
-}
-
-void assert_array(const rapidjson::Value& value, const std::vector<std::string>& attrs) {
-  assert_has(value, attrs);
-
-  for(const std::string& attr : attrs) {
-    if(!value[attr.c_str()].IsArray()) {
-      throw AttributeError(attr, ERROR_NOT_ARRAY, value);
-    }
-  }
-}
-
-void assert_object(const rapidjson::Value& value, const std::vector<std::string>& attrs) {
-  assert_has(value, attrs);
-
-  for(const std::string& attr : attrs) {
-    if(!value[attr.c_str()].IsObject()) {
-      throw AttributeError(attr, ERROR_NOT_OBJECT, value);
-    }
-  }
-}
+ASSERT_TYPE(string, IsString, ERROR_NOT_STRING);
+ASSERT_TYPE(int, IsInt, ERROR_NOT_INTEGER);
+ASSERT_TYPE(boolean, IsBool, ERROR_NOT_BOOLEAN);
+ASSERT_TYPE(array, IsArray, ERROR_NOT_ARRAY);
+ASSERT_TYPE(object, IsObject, ERROR_NOT_OBJECT);
 
 // Sets line number of statements
 void SetLine(Statement* statement, const rapidjson::Value& definition) {
@@ -245,9 +223,18 @@ VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def)
   assert_string(param_def, {PARAM_NAME_ATTR});
   assert_object(param_def, {PARAM_DATA_TYPE_ATTR});
 
+  bool is_reference = false;
+
+  if(param_def.HasMember("is_reference")) {
+    assert_boolean(param_def, {"is_reference"});
+
+    is_reference = param_def["is_reference"].GetBool();
+  }
+
   VariableDeclaration* param_declaration = new VariableDeclaration(
       param_def[PARAM_NAME_ATTR].GetString(),
-      ParseType(param_def[PARAM_DATA_TYPE_ATTR]));
+      ParseType(param_def[PARAM_DATA_TYPE_ATTR]),
+      is_reference);
 
   SetLine(param_declaration, param_def);
   return param_declaration;

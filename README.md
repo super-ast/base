@@ -145,11 +145,12 @@ Attribute     | Value
 `block`       | `Block`
 
 #### VariableDeclaration
-Attribute    | Value
--------------|-------------
-`type`       | `"variable-declaration"`
-`name`       | `string`
-`data-type`  | `Type`
+Attribute      | Value
+---------------|-------------
+`type`         | `"variable-declaration"`
+`name`         | `string`
+`data-type`    | `Type`
+`is_reference`*| `bool` (default: `false`) 
 
 ## Type
 ### Simple
