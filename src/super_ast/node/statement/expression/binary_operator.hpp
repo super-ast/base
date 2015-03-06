@@ -17,7 +17,8 @@ public:
     LESS_EQUAL,
     LESS,
     OR,
-    AND
+    AND,
+    ELEMENT_REFERENCE
   };
 
   BinaryOperator(Type type, Expression* left, Expression* right);

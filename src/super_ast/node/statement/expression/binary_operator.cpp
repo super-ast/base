@@ -15,7 +15,8 @@ const std::string TypeStrings[] = {
     "<=",
     "<",
     "OR",
-    "AND"
+    "AND",
+    "ELEMENT_REFERENCE"
 };
 }
 

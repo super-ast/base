@@ -122,7 +122,8 @@ std::map<std::string, BinaryOperator::Type> binary_operator_types = {
     {"<=",  BinaryOperator::LESS_EQUAL},
     {"<",   BinaryOperator::LESS},
     {"or",  BinaryOperator::OR},
-    {"and", BinaryOperator::AND}
+    {"and", BinaryOperator::AND},
+    {"[]",  BinaryOperator::ELEMENT_REFERENCE}
 };
 
 typedef Atom* (*AtomParser)(const rapidjson::Value&);
