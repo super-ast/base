@@ -27,6 +27,7 @@
 
 // -- Expressions
 #include "super_ast/node/statement/expression.hpp"
+#include "super_ast/node/statement/expression/unary_operator.hpp"
 #include "super_ast/node/statement/expression/binary_operator.hpp"
 
 // --- Atoms

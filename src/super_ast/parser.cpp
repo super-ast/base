@@ -29,6 +29,9 @@ namespace {
 #define LOOP_POST_ITERATION_ATTR    "post"
 #define LOOP_BLOCK_ATTR             "block"
 
+// Unary opreator
+#define UNARY_EXPRESSION_ATTR "expression"
+
 // Binary operator
 #define BINARY_LEFT_ATTR  "left"
 #define BINARY_RIGHT_ATTR "right"
@@ -108,6 +111,10 @@ std::map<std::string, TypeCreator> data_types = {
 typedef Type* (*TypeParser)(const rapidjson::Value&);
 std::map<std::string, TypeParser> type_parsers = {
     {"vector", ParseVectorType}
+};
+
+std::map<std::string, UnaryOperator::Type> unary_operator_types = {
+    {"not", UnaryOperator::NOT}
 };
 
 std::map<std::string, BinaryOperator::Type> binary_operator_types = {
@@ -328,7 +335,15 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
 
   std::string type = expr_def[TYPE_ATTR].GetString();
 
-  // TODO: Parse unary expressions
+  if(unary_operator_types.find(type) != unary_operator_types.end()) {
+    assert_object(expr_def, {UNARY_EXPRESSION_ATTR});
+
+    UnaryOperator* uny_operator = new UnaryOperator(unary_operator_types[type],
+        ParseExpression(expr_def[UNARY_EXPRESSION_ATTR]));
+
+    SetLine(uny_operator, expr_def);
+    return uny_operator;
+  }
 
   if(binary_operator_types.find(type) != binary_operator_types.end()) {
     assert_object(expr_def, {BINARY_LEFT_ATTR, BINARY_RIGHT_ATTR});

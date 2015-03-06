@@ -102,6 +102,12 @@ Attribute    | Value
 `post`       | `Expression`
 
 ### Expression
+#### Unary operator
+Attribute    | Value
+-------------|-------------
+`type`       | `string(not)`
+`expression` | `Expression`
+
 #### Binary operator
 Attribute    | Value
 -------------|-------------

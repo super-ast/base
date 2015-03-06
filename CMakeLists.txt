@@ -20,6 +20,7 @@ set(SOURCE_FILES
     src/super_ast/node/statement/declaration/struct_declaration.cpp
 
     src/super_ast/node/statement/expression.cpp
+    src/super_ast/node/statement/expression/unary_operator.cpp
     src/super_ast/node/statement/expression/binary_operator.cpp
 
     src/super_ast/node/statement/expression/atom.cpp
