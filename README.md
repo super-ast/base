@@ -171,7 +171,7 @@ Attribute    | Value
 `data-type`  | `Type`
 
 # Visitor pattern example
-The `printer` analyzer shows a simple visitor that prints each node that visits properly indented:
+The `printer` analyzer shows a simple visitor that prints visited nodes properly indented:
 
 ```c++
 #include <iostream>
