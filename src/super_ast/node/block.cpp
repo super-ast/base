@@ -15,13 +15,17 @@ void Block::AppendStatement(Statement* statement) {
   statements_.push_back(statement);
 }
 
-void Block::PrintChildren(unsigned int depth) const {
-  for(int i = 0; i < statements_.size(); ++i) {
-    statements_[i]->Print(depth);
-  }
-}
-
 std::string Block::Representation() const {
   return "BLOCK";
+}
+
+const std::vector<Statement*>& Block::statements() const {
+  return statements_;
+}
+
+void Block::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  for(const Statement* statement : statements_) {
+    statement->Accept(visitor, in_preorder, depth);
+  }
 }
 }

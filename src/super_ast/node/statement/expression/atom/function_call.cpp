@@ -22,10 +22,9 @@ std::string FunctionCall::Representation() const {
   return ss.str();
 }
 
-
-void FunctionCall::PrintChildren(unsigned int depth) const {
-  for(Expression* argument : arguments_) {
-    argument->Print(depth);
+void FunctionCall::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  for(const Expression* argument : arguments_) {
+    argument->Accept(visitor, in_preorder, depth);
   }
 }
 }

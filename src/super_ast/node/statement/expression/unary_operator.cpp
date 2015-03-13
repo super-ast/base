@@ -27,7 +27,7 @@ std::string UnaryOperator::Representation() const {
   return TypeStrings[type_];
 }
 
-void UnaryOperator::PrintChildren(unsigned int depth) const {
-  expression_->Print(depth);
+void UnaryOperator::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  expression_->Accept(visitor, in_preorder, depth);
 }
 }

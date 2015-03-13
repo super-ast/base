@@ -29,10 +29,10 @@ std::string For::Representation() const {
   return "FOR";
 }
 
-void For::PrintChildren(unsigned int depth) const {
-  initialization_->Print(depth);
-  condition_->Print(depth);
-  post_iteration_->Print(depth);
-  super::PrintChildren(depth);
+void For::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  initialization_->Accept(visitor, in_preorder, depth);
+  condition_->Accept(visitor, in_preorder, depth);
+  post_iteration_->Accept(visitor, in_preorder, depth);
+  super::AcceptChildren(visitor, in_preorder, depth);
 }
 }

@@ -46,8 +46,8 @@ std::string BinaryOperator::Representation() const {
   return TypeStrings[type_];
 }
 
-void BinaryOperator::PrintChildren(unsigned int depth) const {
-  left_->Print(depth);
-  right_->Print(depth);
+void BinaryOperator::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  left_->Accept(visitor, in_preorder, depth);
+  right_->Accept(visitor, in_preorder, depth);
 }
 }

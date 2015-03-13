@@ -21,8 +21,6 @@ bool VariableDeclaration::is_reference() const {
 }
 
 std::string VariableDeclaration::Representation() const {
-  std::stringstream ss;
-  ss << "VAR " << data_type_->Representation() << " " << name();
-  return ss.str();
+  return std::string("VAR ") + data_type_->Representation() + std::string(" ") + name();
 }
 }

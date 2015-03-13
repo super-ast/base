@@ -14,28 +14,13 @@ public:
 
   ~Block();
 
-  /**
-  * Adds the given statement at the end of this block
-  */
   void AppendStatement(Statement* statement);
-  virtual void PrintChildren(unsigned int depth) const;
-
 
   const std::vector<Statement*>& statements() const;
-
   virtual std::string Representation() const;
 
-  /**
-  * Returns the total number of loops in this block
-  */
-  int LoopCount() const;
-
-  /**
-  * Returns the total number of conditionals in this block
-  */
-  int ConditionalCount() const;
-
-  // More API here...
+protected:
+  virtual void AcceptChildren(Visitor& visitor, bool in_preorder, int depth) const;
 
 private:
   std::vector<Statement*> statements_;

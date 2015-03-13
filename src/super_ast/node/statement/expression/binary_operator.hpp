@@ -31,7 +31,7 @@ public:
   virtual std::string Representation() const;
 
 protected:
-  virtual void PrintChildren(unsigned int depth) const;
+  virtual void AcceptChildren(Visitor& visitor, bool in_preorder, int depth) const;
 
 private:
   Type type_;

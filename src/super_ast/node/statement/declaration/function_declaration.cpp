@@ -1,4 +1,3 @@
-#include <sstream>
 #include "function_declaration.hpp"
 
 namespace super_ast {
@@ -32,16 +31,14 @@ const Block& FunctionDeclaration::body() const {
 
 
 std::string FunctionDeclaration::Representation() const {
-  std::stringstream ss;
-  ss << "FUNCTION " << return_type_->Representation() << " " << name();
-  return ss.str();
+  return std::string("FUNCTION ") + return_type_->Representation() + std::string(" ") + name();
 }
 
-void FunctionDeclaration::PrintChildren(unsigned int depth) const {
+void FunctionDeclaration::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
   for(VariableDeclaration* parameter : parameters_) {
-    parameter->Print(depth);
+    parameter->Accept(visitor, in_preorder, depth);
   }
 
-  body_->Print(depth);
+  body_->Accept(visitor, in_preorder, depth);
 }
 }

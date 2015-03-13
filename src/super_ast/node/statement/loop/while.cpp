@@ -19,8 +19,8 @@ std::string While::Representation() const {
   return "WHILE";
 }
 
-void While::PrintChildren(unsigned int depth) const {
-  condition_->Print(depth);
-  super::PrintChildren(depth);
+void While::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  condition_->Accept(visitor, in_preorder, depth);
+  super::AcceptChildren(visitor, in_preorder, depth);
 }
 }

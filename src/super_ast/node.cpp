@@ -1,31 +1,39 @@
 #include "node.hpp"
 #include <iostream>
 
-super_ast::Node::Node() {
+namespace super_ast {
+void Node::Visitor::Visit(const Node& node, int depth) {
+  // Do nothing
+}
+
+bool Node::PRE_ORDER = true;
+bool Node::POST_ORDER = false;
+
+Node::Node() {
 
 }
 
-super_ast::Node::~Node() {
-
-}
-
-bool super_ast::Node::is(super_ast::Node::NodeType type) const {
-  return super_ast::Node::UNKNOWN == type;
-}
-
-void super_ast::Node::Print() const {
-  Print(0);
-}
-
-void super_ast::Node::Print(unsigned int depth) const {
-  std::cout << std::string(depth * 2, ' ') << Representation() << std::endl;
-  PrintChildren(depth + 1);
-}
-
-void super_ast::Node::PrintChildren(unsigned int depth) const {
-  // No children
-}
-
-std::string super_ast::Node::Representation() const {
+std::string Node::Representation() const {
   return "UNKNOWN";
+}
+
+void Node::Accept(Node::Visitor& visitor, bool in_preoder) const {
+  Accept(visitor, in_preoder, 0);
+}
+
+void Node::Accept(Visitor& visitor, bool in_preorder, int depth) const {
+  if(in_preorder) {
+    visitor.Visit(*this, depth);
+  }
+
+  AcceptChildren(visitor, in_preorder, depth+1);
+
+  if(!in_preorder) {
+    visitor.Visit(*this, depth);
+  }
+}
+
+void Node::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  // Do nothing
+}
 }

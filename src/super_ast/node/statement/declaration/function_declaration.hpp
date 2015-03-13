@@ -19,7 +19,9 @@ public:
   const Block& body() const;
 
   virtual std::string Representation() const;
-  virtual void PrintChildren(unsigned int depth) const;
+
+protected:
+  virtual void AcceptChildren(Visitor& visitor, bool in_preorder, int depth) const;
 
 private:
   Type* return_type_;

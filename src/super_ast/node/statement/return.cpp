@@ -14,7 +14,7 @@ std::string Return::Representation() const {
   return "RETURN";
 }
 
-void Return::PrintChildren(unsigned int depth) const {
-  value_->Print(depth);
+void Return::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+  value_->Accept(visitor, in_preorder, depth);
 }
 }
