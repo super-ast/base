@@ -23,4 +23,7 @@ bool VariableDeclaration::is_reference() const {
 std::string VariableDeclaration::Representation() const {
   return std::string("VAR ") + data_type_->Representation() + std::string(" ") + name();
 }
+
+ACCEPT_SELF_IMPL(VariableDeclaration)
+
 }

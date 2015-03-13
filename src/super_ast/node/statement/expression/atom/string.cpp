@@ -14,6 +14,8 @@ std::string String::Representation() const {
   return Escape(value_);
 }
 
+ACCEPT_SELF_IMPL(String)
+
 std::string String::Escape(const std::string& str) {
   std::stringstream ss;
 

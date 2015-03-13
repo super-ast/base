@@ -20,7 +20,8 @@ public:
   virtual std::string Representation() const;
 
 protected:
-  virtual void AcceptChildren(Visitor& visitor, bool in_preorder, int depth) const;
+  ACCEPT_SELF
+  virtual void AcceptChildren(Visitor& visitor, int depth) const;
 
 private:
   std::vector<Statement*> statements_;

@@ -10,6 +10,9 @@ public:
 
   std::string Representation() const;
 
+protected:
+  ACCEPT_SELF
+
 private:
   int value_;
 };

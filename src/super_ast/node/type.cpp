@@ -98,4 +98,7 @@ Type* Type::get(Type::Native type) {
   types_[type] = type_;
   return type_;
 }
+
+ACCEPT_SELF_IMPL(Type)
+
 }

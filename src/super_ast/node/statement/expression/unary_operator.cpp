@@ -27,7 +27,9 @@ std::string UnaryOperator::Representation() const {
   return TypeStrings[type_];
 }
 
-void UnaryOperator::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
-  expression_->Accept(visitor, in_preorder, depth);
+ACCEPT_SELF_IMPL(UnaryOperator);
+
+void UnaryOperator::AcceptChildren(Visitor& visitor, int depth) const {
+  expression_->Accept(visitor, depth);
 }
 }

@@ -12,7 +12,7 @@ public:
   std::string Representation() const;
 
 protected:
-  virtual void AcceptChildren(Visitor& visitor, bool in_preorder, int depth) const;
+  virtual void AcceptChildren(Visitor& visitor, int depth) const;
 
 private:
   Expression* value_;

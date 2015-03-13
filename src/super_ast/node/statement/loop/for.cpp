@@ -29,10 +29,12 @@ std::string For::Representation() const {
   return "FOR";
 }
 
-void For::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
-  initialization_->Accept(visitor, in_preorder, depth);
-  condition_->Accept(visitor, in_preorder, depth);
-  post_iteration_->Accept(visitor, in_preorder, depth);
-  super::AcceptChildren(visitor, in_preorder, depth);
+ACCEPT_SELF_IMPL(For)
+
+void For::AcceptChildren(Visitor& visitor, int depth) const {
+  initialization_->Accept(visitor, depth);
+  condition_->Accept(visitor, depth);
+  post_iteration_->Accept(visitor, depth);
+  super::AcceptChildren(visitor, depth);
 }
 }

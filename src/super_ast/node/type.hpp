@@ -20,6 +20,9 @@ public:
   bool operator!=(const Type& type);
   virtual std::string Representation() const;
 
+protected:
+  ACCEPT_SELF
+
 private:
   enum Native {
     VOID,

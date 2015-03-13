@@ -19,8 +19,10 @@ std::string While::Representation() const {
   return "WHILE";
 }
 
-void While::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
-  condition_->Accept(visitor, in_preorder, depth);
-  super::AcceptChildren(visitor, in_preorder, depth);
+ACCEPT_SELF_IMPL(While)
+
+void While::AcceptChildren(Visitor& visitor, int depth) const {
+  condition_->Accept(visitor, depth);
+  super::AcceptChildren(visitor, depth);
 }
 }

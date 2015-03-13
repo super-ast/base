@@ -17,6 +17,9 @@ public:
   std::string Representation() const;
 
 
+protected:
+  ACCEPT_SELF
+
 private:
   Type* data_type_;
   bool is_reference_;

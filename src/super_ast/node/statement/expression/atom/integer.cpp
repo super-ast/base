@@ -15,4 +15,6 @@ std::string Integer::Representation() const {
   ss << "INT(" << value_ << ")";
   return ss.str();
 }
+
+ACCEPT_SELF_IMPL(Integer)
 }

@@ -41,12 +41,14 @@ std::string Conditional::Representation() const {
   return "CONDITIONAL";
 }
 
-void Conditional::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
-  condition_->Accept(visitor, in_preorder, depth);
-  then_block_->Accept(visitor, in_preorder, depth);
+ACCEPT_SELF_IMPL(Conditional)
+
+void Conditional::AcceptChildren(Visitor& visitor, int depth) const {
+  condition_->Accept(visitor, depth);
+  then_block_->Accept(visitor, depth);
 
   if(has_else_block()) {
-    else_block_->Accept(visitor, in_preorder, depth);
+    else_block_->Accept(visitor, depth);
   }
 }
 }

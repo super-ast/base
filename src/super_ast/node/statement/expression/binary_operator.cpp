@@ -46,8 +46,10 @@ std::string BinaryOperator::Representation() const {
   return TypeStrings[type_];
 }
 
-void BinaryOperator::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
-  left_->Accept(visitor, in_preorder, depth);
-  right_->Accept(visitor, in_preorder, depth);
+ACCEPT_SELF_IMPL(BinaryOperator)
+
+void BinaryOperator::AcceptChildren(Visitor& visitor, int depth) const {
+  left_->Accept(visitor, depth);
+  right_->Accept(visitor, depth);
 }
 }

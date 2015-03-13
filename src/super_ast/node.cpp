@@ -2,13 +2,6 @@
 #include <iostream>
 
 namespace super_ast {
-void Node::Visitor::Visit(const Node& node, int depth) {
-  // Do nothing
-}
-
-bool Node::PRE_ORDER = true;
-bool Node::POST_ORDER = false;
-
 Node::Node() {
 
 }
@@ -17,23 +10,23 @@ std::string Node::Representation() const {
   return "UNKNOWN";
 }
 
-void Node::Accept(Node::Visitor& visitor, bool in_preoder) const {
-  Accept(visitor, in_preoder, 0);
+void Node::Accept(Visitor& visitor) const {
+  Accept(visitor, 0);
 }
 
-void Node::Accept(Visitor& visitor, bool in_preorder, int depth) const {
-  if(in_preorder) {
-    visitor.Visit(*this, depth);
-  }
-
-  AcceptChildren(visitor, in_preorder, depth+1);
-
-  if(!in_preorder) {
-    visitor.Visit(*this, depth);
+void Node::Accept(Visitor& visitor, int depth) const {
+  if(visitor.in_pre_order()) {
+    AcceptSelf(visitor, depth);
+    AcceptChildren(visitor, depth+1);
+  } else {
+    AcceptChildren(visitor, depth);
+    AcceptSelf(visitor, depth+1);
   }
 }
 
-void Node::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+ACCEPT_SELF_IMPL(Node)
+
+void Node::AcceptChildren(Visitor& visitor, int depth) const {
   // Do nothing
 }
 }

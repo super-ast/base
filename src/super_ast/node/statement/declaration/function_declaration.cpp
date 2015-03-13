@@ -34,11 +34,13 @@ std::string FunctionDeclaration::Representation() const {
   return std::string("FUNCTION ") + return_type_->Representation() + std::string(" ") + name();
 }
 
-void FunctionDeclaration::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
+ACCEPT_SELF_IMPL(FunctionDeclaration)
+
+void FunctionDeclaration::AcceptChildren(Visitor& visitor, int depth) const {
   for(VariableDeclaration* parameter : parameters_) {
-    parameter->Accept(visitor, in_preorder, depth);
+    parameter->Accept(visitor, depth);
   }
 
-  body_->Accept(visitor, in_preorder, depth);
+  body_->Accept(visitor, depth);
 }
 }

@@ -18,7 +18,9 @@ std::string Loop::Representation() const {
   return "LOOP";
 }
 
-void Loop::AcceptChildren(Node::Visitor& visitor, bool in_preorder, int depth) const {
-  body_->Accept(visitor, in_preorder, depth);
+ACCEPT_SELF_IMPL(Loop)
+
+void Loop::AcceptChildren(Visitor& visitor, int depth) const {
+  body_->Accept(visitor, depth);
 }
 }

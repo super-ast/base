@@ -1,26 +1,28 @@
 #pragma once
 
 #include <string>
+#include "visitor.hpp"
+
+#define ACCEPT_SELF \
+  virtual void AcceptSelf(Visitor& visitor, int depth) const;
+
+#define ACCEPT_SELF_IMPL(TYPE) \
+  void TYPE::AcceptSelf(Visitor& visitor, int depth) const { \
+    visitor.Visit(this, depth); \
+  }
 
 namespace super_ast {
 class Node {
 public:
-  static bool PRE_ORDER;
-  static bool POST_ORDER;
-
-  class Visitor {
-  public:
-    virtual void Visit(const Node& node, int depth);
-  };
-
   Node();
 
   virtual std::string Representation() const;
 
-  void Accept(Visitor& visitor, bool in_preoder) const;
-  void Accept(Visitor& visitor, bool in_preorder, int depth) const;
+  void Accept(Visitor& visitor) const;
+  void Accept(Visitor& visitor, int depth) const;
 
 protected:
-  virtual void AcceptChildren(Visitor& visitor, bool in_preorder, int depth) const;
+  ACCEPT_SELF
+  virtual void AcceptChildren(Visitor& visitor, int depth) const;
 };
 }

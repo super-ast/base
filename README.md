@@ -177,10 +177,14 @@ The `printer` analyzer shows a simple visitor that prints visited nodes properly
 #include <iostream>
 #include "super_ast.hpp"
 
-class Printer : public super_ast::Node::Visitor {
+class Printer : public super_ast::Visitor {
 public:
-  void Visit(const super_ast::Node& node, int depth) {
-    std::cout << std::string(((unsigned int)depth) * 2, ' ') << node.Representation() << std::endl;
+  Printer() : super_ast::Visitor(PRE_ORDER) {
+
+  }
+
+  void Visit(const super_ast::Node* node, int depth) {
+    std::cout << std::string(depth * 2, ' ') << node->Representation() << std::endl;
   }
 };
 
@@ -188,14 +192,14 @@ int main() {
   const super_ast::Block* ast = super_ast::Parse(std::cin);
   Printer printer;
 
-  ast->Accept(printer, super_ast::Node::PRE_ORDER);
+  ast->Accept(printer);
 
   delete ast;
   return 0;
 }
 ```
 
-The `super_ast` accepts any `Visitor` that implements the `super_ast::Node::Visitor` abstract class.
+The `super_ast` accepts any `Visitor` that implements the `super_ast::Visitor` abstract class.
 
 # Coding style
 Using ideas from [Google C++ Style Guide](http://google-styleguide.googlecode.com/svn/trunk/cppguide.html)

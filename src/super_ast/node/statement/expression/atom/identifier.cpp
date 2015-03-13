@@ -19,4 +19,6 @@ std::string Identifier::Representation() const {
   return ss.str();
 }
 
+ACCEPT_SELF_IMPL(Identifier)
+
 }
