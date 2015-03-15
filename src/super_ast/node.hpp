@@ -4,11 +4,11 @@
 #include "visitor.hpp"
 
 #define ACCEPT_SELF \
-  virtual void AcceptSelf(Visitor& visitor, int depth) const;
+  virtual void Accept(Visitor& visitor) const;
 
 #define ACCEPT_SELF_IMPL(TYPE) \
-  void TYPE::AcceptSelf(Visitor& visitor, int depth) const { \
-    visitor.Visit(this, depth); \
+  void TYPE::Accept(Visitor& visitor) const { \
+    visitor.Visit(this); \
   }
 
 namespace super_ast {
@@ -18,11 +18,8 @@ public:
 
   virtual std::string Representation() const;
 
-  void Accept(Visitor& visitor) const;
-  void Accept(Visitor& visitor, int depth) const;
-
-protected:
   ACCEPT_SELF
-  virtual void AcceptChildren(Visitor& visitor, int depth) const;
+  virtual void AcceptChildren(Visitor& visitor) const;
+  virtual bool HasChildren() const;
 };
 }

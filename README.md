@@ -12,6 +12,13 @@
 ## printer
 Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
 
+## grapher
+Reads a `super_ast` in `JSON` format and prints a graph in `dot` format that represents the `super_ast`.
+
+```bash
+./grapher < examples/fibonacci.json | dot -Tps -o fibonacci.ps
+```
+
 ### Examples
 #### Hello world
 The input can be found in `examples/hello_world.json`.
@@ -179,13 +186,20 @@ The `printer` analyzer shows a simple visitor that prints visited nodes properly
 
 class Printer : public super_ast::Visitor {
 public:
-  Printer() : super_ast::Visitor(PRE_ORDER) {
-
+  Printer() {
+    depth_ = 0;
   }
 
-  void Visit(const super_ast::Node* node, int depth) {
-    std::cout << std::string(depth * 2, ' ') << node->Representation() << std::endl;
+  void Visit(const super_ast::Node* node) {
+    std::cout << std::string(depth_ * 2, ' ') << node->Representation() << std::endl;
+
+    depth_++;
+    node->AcceptChildren(*this);
+    depth_--;
   }
+
+private:
+  unsigned int depth_;
 };
 
 int main() {
@@ -194,12 +208,12 @@ int main() {
 
   ast->Accept(printer);
 
-  delete ast;
   return 0;
 }
 ```
 
 The `super_ast` accepts any `Visitor` that implements the `super_ast::Visitor` abstract class.
+The `Visitor` can control the order in which nodes are visited by calling the method `AcceptChildren` of the visited node.
 
 # Coding style
 Using ideas from [Google C++ Style Guide](http://google-styleguide.googlecode.com/svn/trunk/cppguide.html)

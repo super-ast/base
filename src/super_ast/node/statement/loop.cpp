@@ -20,7 +20,11 @@ std::string Loop::Representation() const {
 
 ACCEPT_SELF_IMPL(Loop)
 
-void Loop::AcceptChildren(Visitor& visitor, int depth) const {
-  body_->Accept(visitor, depth);
+void Loop::AcceptChildren(Visitor& visitor) const {
+  body_->Accept(visitor);
+}
+
+bool Loop::HasChildren() const {
+  return true;
 }
 }

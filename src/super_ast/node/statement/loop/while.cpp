@@ -21,8 +21,8 @@ std::string While::Representation() const {
 
 ACCEPT_SELF_IMPL(While)
 
-void While::AcceptChildren(Visitor& visitor, int depth) const {
-  condition_->Accept(visitor, depth);
-  super::AcceptChildren(visitor, depth);
+void While::AcceptChildren(Visitor& visitor) const {
+  condition_->Accept(visitor);
+  super::AcceptChildren(visitor);
 }
 }

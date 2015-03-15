@@ -27,15 +27,8 @@ class While;
 
 class Visitor {
 public:
-  static bool PRE_ORDER;
-  static bool POST_ORDER;
-
-  Visitor(bool in_pre_order);
-
-  bool in_pre_order() const;
-
   #define VISIT(TYPE) \
-  virtual void Visit(const TYPE* node, int depth);
+  virtual void Visit(const TYPE* node);
 
   VISIT(Node)
   VISIT(Block)
@@ -63,8 +56,5 @@ public:
   VISIT(String)
 
   #undef VISIT
-
-private:
-  bool in_pre_order_;
 };
 }

@@ -24,9 +24,13 @@ std::string FunctionCall::Representation() const {
 
 ACCEPT_SELF_IMPL(FunctionCall)
 
-void FunctionCall::AcceptChildren(Visitor& visitor, int depth) const {
+void FunctionCall::AcceptChildren(Visitor& visitor) const {
   for(const Expression* argument : arguments_) {
-    argument->Accept(visitor, depth);
+    argument->Accept(visitor);
   }
+}
+
+bool FunctionCall::HasChildren() const {
+  return true;
 }
 }

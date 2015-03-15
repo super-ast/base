@@ -12,7 +12,6 @@ public:
 
   static std::string Escape(const std::string& str);
 
-protected:
   ACCEPT_SELF
 
 private:

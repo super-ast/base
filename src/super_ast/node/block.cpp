@@ -23,12 +23,15 @@ const std::vector<Statement*>& Block::statements() const {
   return statements_;
 }
 
-void Block::AcceptChildren(Visitor& visitor, int depth) const {
+void Block::AcceptChildren(Visitor& visitor) const {
   for(const Statement* statement : statements_) {
-    statement->Accept(visitor, depth);
+    statement->Accept(visitor);
   }
 }
 
 ACCEPT_SELF_IMPL(Block)
 
+bool Block::HasChildren() const {
+  return !statements_.empty();
+}
 }

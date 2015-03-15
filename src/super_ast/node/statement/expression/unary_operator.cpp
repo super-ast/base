@@ -29,7 +29,11 @@ std::string UnaryOperator::Representation() const {
 
 ACCEPT_SELF_IMPL(UnaryOperator);
 
-void UnaryOperator::AcceptChildren(Visitor& visitor, int depth) const {
-  expression_->Accept(visitor, depth);
+void UnaryOperator::AcceptChildren(Visitor& visitor) const {
+  expression_->Accept(visitor);
+}
+
+bool UnaryOperator::HasChildren() const {
+  return true;
 }
 }

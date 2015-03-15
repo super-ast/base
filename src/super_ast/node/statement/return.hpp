@@ -11,8 +11,9 @@ public:
 
   std::string Representation() const;
 
-protected:
-  virtual void AcceptChildren(Visitor& visitor, int depth) const;
+  ACCEPT_SELF
+  virtual void AcceptChildren(Visitor& visitor) const;
+  virtual bool HasChildren() const;
 
 private:
   Expression* value_;

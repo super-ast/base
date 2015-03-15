@@ -1,24 +1,12 @@
 #include "super_ast.hpp"
 
 #define DELEGATE(TYPE, PARENT) \
-void Visitor::Visit(const TYPE* node, int depth) {\
-  Visit((PARENT*)node, depth); \
+void Visitor::Visit(const TYPE* node) {\
+  Visit((PARENT*)node); \
 }
 
 namespace super_ast {
-bool Visitor::PRE_ORDER = true;
-bool Visitor::POST_ORDER = false;
-
-
-Visitor::Visitor(bool in_pre_order) : in_pre_order_(in_pre_order) {
-
-}
-
-bool Visitor::in_pre_order() const {
-  return in_pre_order_;
-}
-
-void Visitor::Visit(const Node* node, int depth) {
+void Visitor::Visit(const Node* node) {
 
 }
 

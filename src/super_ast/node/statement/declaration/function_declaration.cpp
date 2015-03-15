@@ -36,11 +36,15 @@ std::string FunctionDeclaration::Representation() const {
 
 ACCEPT_SELF_IMPL(FunctionDeclaration)
 
-void FunctionDeclaration::AcceptChildren(Visitor& visitor, int depth) const {
+void FunctionDeclaration::AcceptChildren(Visitor& visitor) const {
   for(VariableDeclaration* parameter : parameters_) {
-    parameter->Accept(visitor, depth);
+    parameter->Accept(visitor);
   }
 
-  body_->Accept(visitor, depth);
+  body_->Accept(visitor);
+}
+
+bool FunctionDeclaration::HasChildren() const {
+  return true;
 }
 }

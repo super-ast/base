@@ -48,8 +48,12 @@ std::string BinaryOperator::Representation() const {
 
 ACCEPT_SELF_IMPL(BinaryOperator)
 
-void BinaryOperator::AcceptChildren(Visitor& visitor, int depth) const {
-  left_->Accept(visitor, depth);
-  right_->Accept(visitor, depth);
+void BinaryOperator::AcceptChildren(Visitor& visitor) const {
+  left_->Accept(visitor);
+  right_->Accept(visitor);
+}
+
+bool BinaryOperator::HasChildren() const {
+  return true;
 }
 }

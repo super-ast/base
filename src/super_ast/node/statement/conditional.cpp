@@ -43,12 +43,16 @@ std::string Conditional::Representation() const {
 
 ACCEPT_SELF_IMPL(Conditional)
 
-void Conditional::AcceptChildren(Visitor& visitor, int depth) const {
-  condition_->Accept(visitor, depth);
-  then_block_->Accept(visitor, depth);
+void Conditional::AcceptChildren(Visitor& visitor) const {
+  condition_->Accept(visitor);
+  then_block_->Accept(visitor);
 
   if(has_else_block()) {
-    else_block_->Accept(visitor, depth);
+    else_block_->Accept(visitor);
   }
+}
+
+bool Conditional::HasChildren() const {
+  return true;
 }
 }

@@ -20,9 +20,9 @@ public:
 
   virtual std::string Representation() const;
 
-protected:
   ACCEPT_SELF
-  virtual void AcceptChildren(Visitor& visitor, int depth) const;
+  virtual void AcceptChildren(Visitor& visitor) const;
+  virtual bool HasChildren() const;
 
 private:
   Type* return_type_;

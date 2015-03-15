@@ -13,7 +13,13 @@ std::string Return::Representation() const {
   return "RETURN";
 }
 
-void Return::AcceptChildren(Visitor& visitor, int depth) const {
-  value_->Accept(visitor, depth);
+ACCEPT_SELF_IMPL(Return)
+
+void Return::AcceptChildren(Visitor& visitor) const {
+  value_->Accept(visitor);
+}
+
+bool Return::HasChildren() const {
+  return true;
 }
 }

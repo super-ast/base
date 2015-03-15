@@ -3,13 +3,20 @@
 
 class Printer : public super_ast::Visitor {
 public:
-  Printer() : super_ast::Visitor(PRE_ORDER) {
-
+  Printer() {
+    depth_ = 0;
   }
 
-  void Visit(const super_ast::Node* node, int depth) {
-    std::cout << std::string(depth * 2, ' ') << node->Representation() << std::endl;
+  void Visit(const super_ast::Node* node) {
+    std::cout << std::string(depth_ * 2, ' ') << node->Representation() << std::endl;
+
+    depth_++;
+    node->AcceptChildren(*this);
+    depth_--;
   }
+
+private:
+  unsigned int depth_;
 };
 
 int main() {
@@ -18,6 +25,5 @@ int main() {
 
   ast->Accept(printer);
 
-  delete ast;
   return 0;
 }

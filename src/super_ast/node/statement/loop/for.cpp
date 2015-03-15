@@ -31,10 +31,10 @@ std::string For::Representation() const {
 
 ACCEPT_SELF_IMPL(For)
 
-void For::AcceptChildren(Visitor& visitor, int depth) const {
-  initialization_->Accept(visitor, depth);
-  condition_->Accept(visitor, depth);
-  post_iteration_->Accept(visitor, depth);
-  super::AcceptChildren(visitor, depth);
+void For::AcceptChildren(Visitor& visitor) const {
+  initialization_->Accept(visitor);
+  condition_->Accept(visitor);
+  post_iteration_->Accept(visitor);
+  super::AcceptChildren(visitor);
 }
 }
