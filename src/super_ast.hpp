@@ -3,6 +3,7 @@
 */
 
 // Node abstraction
+#include "super_ast/node_map.hpp"
 #include "super_ast/node.hpp"
 
 // Main nodes

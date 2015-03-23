@@ -2,7 +2,7 @@
 #include <iostream>
 
 namespace super_ast {
-Node::Node() {
+Node::Node() : id_(0) {
 
 }
 
@@ -20,5 +20,9 @@ void Node::AcceptChildren(Visitor& visitor) const {
 
 bool Node::HasChildren() const {
   return false;
+}
+
+unsigned int Node::id() const {
+  return id_;
 }
 }

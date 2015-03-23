@@ -16,10 +16,15 @@ class Node {
 public:
   Node();
 
+  unsigned int id() const;
+
   virtual std::string Representation() const;
 
   ACCEPT_SELF
   virtual void AcceptChildren(Visitor& visitor) const;
   virtual bool HasChildren() const;
+
+private:
+  unsigned int id_;
 };
 }
