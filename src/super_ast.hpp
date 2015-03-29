@@ -15,12 +15,6 @@
 #include "super_ast/node/statement/conditional.hpp"
 #include "super_ast/node/statement/return.hpp"
 
-// -- Declarations
-#include "super_ast/node/statement/declaration.hpp"
-#include "super_ast/node/statement/declaration/function_declaration.hpp"
-#include "super_ast/node/statement/declaration/struct_declaration.hpp"
-#include "super_ast/node/statement/declaration/variable_declaration.hpp"
-
 // -- Loops
 #include "super_ast/node/statement/loop.hpp"
 #include "super_ast/node/statement/loop/for.hpp"
@@ -30,6 +24,12 @@
 #include "super_ast/node/statement/expression.hpp"
 #include "super_ast/node/statement/expression/unary_operator.hpp"
 #include "super_ast/node/statement/expression/binary_operator.hpp"
+
+// --- Declarations
+#include "super_ast/node/statement/expression/declaration.hpp"
+#include "super_ast/node/statement/expression/declaration/function_declaration.hpp"
+#include "super_ast/node/statement/expression/declaration/struct_declaration.hpp"
+#include "super_ast/node/statement/expression/declaration/variable_declaration.hpp"
 
 // --- Atoms
 #include "super_ast/node/statement/expression/atom.hpp"

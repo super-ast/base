@@ -21,35 +21,21 @@
             "name": "f",
             "data-type": {
               "name": "int"
-            }
-          },
-          {
-            "type": "=",
-            "left": {
-              "type": "identifier",
-              "value": "f"
             },
-            "right": {
+            "init": {
               "type": "int",
               "value": 1
             }
           },
           {
-            "type": "variable-declaration",
-            "name": "i",
-            "data-type": {
-              "name": "int"
-            }
-          },
-          {
             "type": "for",
             "init": {
-              "type": "=",
-              "left": {
-                "type": "identifier",
-                "value": "i"
+              "type": "variable-declaration",
+              "name": "i",
+              "data-type": {
+                "name": "int"
               },
-              "right": {
+              "init": {
                 "type": "int",
                 "value": 1
               }

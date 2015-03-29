@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../statement.hpp"
+#include "../expression.hpp"
 #include <string>
 
 namespace super_ast {
-class Declaration : public Statement {
+class Declaration : public Expression {
 public:
   Declaration(const std::string& name);
 

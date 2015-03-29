@@ -147,8 +147,8 @@ Attribute    | Value
 `name`       | `string`
 `arguments`  | `array[Expression]`
 
-### Declaration
-#### FunctionDeclaration
+#### Declaration
+##### FunctionDeclaration
 Attribute     | Value
 --------------|-------------
 `type`        | `"function"`
@@ -157,13 +157,14 @@ Attribute     | Value
 `return-type` | `Type`
 `block`       | `Block`
 
-#### VariableDeclaration
+##### VariableDeclaration
 Attribute      | Value
 ---------------|-------------
 `type`         | `"variable-declaration"`
 `name`         | `string`
 `data-type`    | `Type`
 `is_reference`*| `bool` (default: `false`) 
+`init`*        | `Expression` (default: `null`)
 
 ## Type
 ### Simple

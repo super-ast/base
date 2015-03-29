@@ -44,8 +44,10 @@ namespace {
 #define FUNCTION_BLOCK_ATTR       "block"
 
 // Param
-#define PARAM_NAME_ATTR      "name"
-#define PARAM_DATA_TYPE_ATTR "data-type"
+#define VARIABLE_DECL_NAME_ATTR      "name"
+#define VARIABLE_DECL_TYPE_ATTR      "data-type"
+#define VARIABLE_DECL_REFERENCE_ATTR "is_reference"
+#define VARIABLE_DECL_INIT_ATTR      "init"
 
 // Return
 #define RETURN_EXPRESSION_ATTR "expression"
@@ -90,13 +92,16 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
 // Parser mappers
 typedef Statement* (*StatementParser)(const rapidjson::Value&);
 std::map<std::string, super_ast::StatementParser> statement_parsers = {
-    {"function-declaration", (StatementParser) ParseFunctionDecalaration},
-    {"variable-declaration", (StatementParser) ParseVariableDeclaration},
     {"return",               (StatementParser) ParseReturn},
     {"conditional",          (StatementParser) ParseConditional},
     {"while",                (StatementParser) ParseWhile},
     {"for",                  (StatementParser) ParseFor}
-    // TODO: Complete
+};
+
+typedef Expression* (*ExpressionParser)(const rapidjson::Value&);
+std::map<std::string, super_ast::ExpressionParser> expression_parsers = {
+    {"function-declaration", (ExpressionParser) ParseFunctionDecalaration},
+    {"variable-declaration", (ExpressionParser) ParseVariableDeclaration}
 };
 
 typedef Type* (*TypeCreator)();
@@ -204,49 +209,6 @@ Statement* ParseStatement(const rapidjson::Value& statement_def) {
   return statement;
 }
 
-FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def) {
-  assert_string(function_def, {FUNCTION_NAME_ATTR});
-  assert_array(function_def, {FUNCTION_PARAMS_ATTR});
-  assert_object(function_def, {FUNCTION_RETURN_TYPE_ATTR, FUNCTION_BLOCK_ATTR});
-
-  std::vector<VariableDeclaration*> params;
-  const rapidjson::Value& params_def = function_def[FUNCTION_PARAMS_ATTR];
-
-  for(int i = 0; i < params_def.Size(); ++i) {
-    params.push_back(ParseVariableDeclaration(params_def[i]));
-  }
-
-  FunctionDeclaration* func_declaration = new FunctionDeclaration(
-      function_def[FUNCTION_NAME_ATTR].GetString(),
-      ParseType(function_def[FUNCTION_RETURN_TYPE_ATTR]),
-      params,
-      ParseBlock(function_def[FUNCTION_BLOCK_ATTR]));
-
-  SetLine(func_declaration, function_def);
-  return func_declaration;
-}
-
-VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def) {
-  assert_string(param_def, {PARAM_NAME_ATTR});
-  assert_object(param_def, {PARAM_DATA_TYPE_ATTR});
-
-  bool is_reference = false;
-
-  if(param_def.HasMember("is_reference")) {
-    assert_boolean(param_def, {"is_reference"});
-
-    is_reference = param_def["is_reference"].GetBool();
-  }
-
-  VariableDeclaration* param_declaration = new VariableDeclaration(
-      param_def[PARAM_NAME_ATTR].GetString(),
-      ParseType(param_def[PARAM_DATA_TYPE_ATTR]),
-      is_reference);
-
-  SetLine(param_declaration, param_def);
-  return param_declaration;
-}
-
 Type* ParseType(const rapidjson::Value& type_def) {
   assert_string(type_def, {TYPE_NAME_ATTR});
 
@@ -335,6 +297,10 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
 
   std::string type = expr_def[TYPE_ATTR].GetString();
 
+  if(expression_parsers.find(type) != expression_parsers.end()) {
+    return expression_parsers[type](expr_def);
+  }
+
   if(unary_operator_types.find(type) != unary_operator_types.end()) {
     assert_object(expr_def, {UNARY_EXPRESSION_ATTR});
 
@@ -360,6 +326,57 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
   }
 
   throw AttributeError(TYPE_ATTR, ERROR_INVALID_VALUE, expr_def);
+}
+
+FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def) {
+  assert_string(function_def, {FUNCTION_NAME_ATTR});
+  assert_array(function_def, {FUNCTION_PARAMS_ATTR});
+  assert_object(function_def, {FUNCTION_RETURN_TYPE_ATTR, FUNCTION_BLOCK_ATTR});
+
+  std::vector<VariableDeclaration*> params;
+  const rapidjson::Value& params_def = function_def[FUNCTION_PARAMS_ATTR];
+
+  for(int i = 0; i < params_def.Size(); ++i) {
+    params.push_back(ParseVariableDeclaration(params_def[i]));
+  }
+
+  FunctionDeclaration* func_declaration = new FunctionDeclaration(
+      function_def[FUNCTION_NAME_ATTR].GetString(),
+      ParseType(function_def[FUNCTION_RETURN_TYPE_ATTR]),
+      params,
+      ParseBlock(function_def[FUNCTION_BLOCK_ATTR]));
+
+  SetLine(func_declaration, function_def);
+  return func_declaration;
+}
+
+VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def) {
+  assert_string(param_def, {VARIABLE_DECL_NAME_ATTR});
+  assert_object(param_def, {VARIABLE_DECL_TYPE_ATTR});
+
+  bool is_reference = false;
+  Expression* value = 0;
+
+  if(param_def.HasMember(VARIABLE_DECL_REFERENCE_ATTR)) {
+    assert_boolean(param_def, {VARIABLE_DECL_REFERENCE_ATTR});
+
+    is_reference = param_def[VARIABLE_DECL_REFERENCE_ATTR].GetBool();
+  }
+
+  if(param_def.HasMember(VARIABLE_DECL_INIT_ATTR)) {
+    assert_object(param_def, {VARIABLE_DECL_INIT_ATTR});
+
+    value = ParseExpression(param_def[VARIABLE_DECL_INIT_ATTR]);
+  }
+
+  VariableDeclaration* param_declaration = new VariableDeclaration(
+      param_def[VARIABLE_DECL_NAME_ATTR].GetString(),
+      ParseType(param_def[VARIABLE_DECL_TYPE_ATTR]),
+      is_reference,
+      value);
+
+  SetLine(param_declaration, param_def);
+  return param_declaration;
 }
 
 Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {

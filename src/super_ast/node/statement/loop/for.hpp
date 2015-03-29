@@ -7,8 +7,7 @@ namespace super_ast {
 class For : public Loop {
 public:
   typedef Loop super;
-  For(Expression* initialization, Expression* condition,
-      Expression* post_iteration, Block* body);
+  For(Expression* initialization, Expression* condition, Expression* post_iteration, Block* body);
 
   ~For();
 

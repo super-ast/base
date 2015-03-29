@@ -16,10 +16,10 @@ set(SOURCE_FILES
     src/super_ast/node/statement/conditional.cpp
     src/super_ast/node/statement/return.cpp
 
-    src/super_ast/node/statement/declaration.cpp
-    src/super_ast/node/statement/declaration/function_declaration.cpp
-    src/super_ast/node/statement/declaration/variable_declaration.cpp
-    src/super_ast/node/statement/declaration/struct_declaration.cpp
+    src/super_ast/node/statement/expression/declaration.cpp
+    src/super_ast/node/statement/expression/declaration/function_declaration.cpp
+    src/super_ast/node/statement/expression/declaration/variable_declaration.cpp
+    src/super_ast/node/statement/expression/declaration/struct_declaration.cpp
 
     src/super_ast/node/statement/expression.cpp
     src/super_ast/node/statement/expression/unary_operator.cpp
