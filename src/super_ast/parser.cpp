@@ -43,11 +43,15 @@ namespace {
 #define FUNCTION_RETURN_TYPE_ATTR "return-type"
 #define FUNCTION_BLOCK_ATTR       "block"
 
-// Param
-#define VARIABLE_DECL_NAME_ATTR      "name"
-#define VARIABLE_DECL_TYPE_ATTR      "data-type"
-#define VARIABLE_DECL_REFERENCE_ATTR "is_reference"
-#define VARIABLE_DECL_INIT_ATTR      "init"
+// Variable
+#define VARIABLE_NAME_ATTR      "name"
+#define VARIABLE_TYPE_ATTR      "data-type"
+#define VARIABLE_REFERENCE_ATTR "is_reference"
+#define VARIABLE_INIT_ATTR      "init"
+
+// Struct
+#define STRUCT_NAME_ATTR        "name"
+#define STRUCT_ATTRIBUTES_ATTR  "attributes"
 
 // Return
 #define RETURN_EXPRESSION_ATTR "expression"
@@ -76,6 +80,7 @@ Block* ParseBlock(const rapidjson::Value& block_def);
 Statement* ParseStatement(const rapidjson::Value& statement_def);
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def);
 VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def);
+StructDeclaration* ParseStructDeclaration(const rapidjson::Value& struct_def);
 Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
@@ -101,7 +106,8 @@ std::map<std::string, super_ast::StatementParser> statement_parsers = {
 typedef Expression* (*ExpressionParser)(const rapidjson::Value&);
 std::map<std::string, super_ast::ExpressionParser> expression_parsers = {
     {"function-declaration", (ExpressionParser) ParseFunctionDecalaration},
-    {"variable-declaration", (ExpressionParser) ParseVariableDeclaration}
+    {"variable-declaration", (ExpressionParser) ParseVariableDeclaration},
+    {"struct-declaration",   (ExpressionParser) ParseStructDeclaration}
 };
 
 typedef Type* (*TypeCreator)();
@@ -231,9 +237,13 @@ Type* ParseVectorType(const rapidjson::Value& type_def) {
 }
 
 Type* FindTypeByName(const rapidjson::Value& type_def) {
-  // TODO: I don't know if we really need this :/
-  // I'll leave it here, just in case
-  throw AttributeError(TYPE_NAME_ATTR, ERROR_INVALID_VALUE, type_def);
+  Type* type_ = Type::ByName(type_def[TYPE_NAME_ATTR].GetString());
+
+  if(!type_) {
+    throw AttributeError(TYPE_NAME_ATTR, ERROR_INVALID_VALUE, type_def);
+  }
+
+  return type_;
 }
 
 Return* ParseReturn(const rapidjson::Value& return_def) {
@@ -351,32 +361,56 @@ FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_
 }
 
 VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def) {
-  assert_string(param_def, {VARIABLE_DECL_NAME_ATTR});
-  assert_object(param_def, {VARIABLE_DECL_TYPE_ATTR});
+  assert_string(param_def, {VARIABLE_NAME_ATTR});
+  assert_object(param_def, {VARIABLE_TYPE_ATTR});
 
   bool is_reference = false;
   Expression* value = 0;
 
-  if(param_def.HasMember(VARIABLE_DECL_REFERENCE_ATTR)) {
-    assert_boolean(param_def, {VARIABLE_DECL_REFERENCE_ATTR});
+  if(param_def.HasMember(VARIABLE_REFERENCE_ATTR)) {
+    assert_boolean(param_def, {VARIABLE_REFERENCE_ATTR});
 
-    is_reference = param_def[VARIABLE_DECL_REFERENCE_ATTR].GetBool();
+    is_reference = param_def[VARIABLE_REFERENCE_ATTR].GetBool();
   }
 
-  if(param_def.HasMember(VARIABLE_DECL_INIT_ATTR)) {
-    assert_object(param_def, {VARIABLE_DECL_INIT_ATTR});
+  if(param_def.HasMember(VARIABLE_INIT_ATTR)) {
+    assert_object(param_def, {VARIABLE_INIT_ATTR});
 
-    value = ParseExpression(param_def[VARIABLE_DECL_INIT_ATTR]);
+    value = ParseExpression(param_def[VARIABLE_INIT_ATTR]);
   }
 
   VariableDeclaration* param_declaration = new VariableDeclaration(
-      param_def[VARIABLE_DECL_NAME_ATTR].GetString(),
-      ParseType(param_def[VARIABLE_DECL_TYPE_ATTR]),
+      param_def[VARIABLE_NAME_ATTR].GetString(),
+      ParseType(param_def[VARIABLE_TYPE_ATTR]),
       is_reference,
       value);
 
   SetLine(param_declaration, param_def);
   return param_declaration;
+}
+
+StructDeclaration* ParseStructDeclaration(const rapidjson::Value& struct_def) {
+  assert_string(struct_def, {STRUCT_NAME_ATTR});
+  assert_array(struct_def, {STRUCT_ATTRIBUTES_ATTR});
+
+  std::vector<VariableDeclaration*> attributes;
+  const rapidjson::Value& attributes_def = struct_def[STRUCT_ATTRIBUTES_ATTR];
+
+  for(int i = 0; i < attributes_def.Size(); ++i) {
+    attributes.push_back(ParseVariableDeclaration(attributes_def[i]));
+  }
+
+  StructDeclaration* struct_declaration = new StructDeclaration(
+      struct_def[STRUCT_NAME_ATTR].GetString(),
+      attributes
+  );
+
+  SetLine(struct_declaration, struct_def);
+
+  // Register type
+  Type::Struct(struct_declaration);
+
+  return struct_declaration;
 }
 
 Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {

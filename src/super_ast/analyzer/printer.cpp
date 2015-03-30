@@ -21,8 +21,8 @@ private:
 
 int main() {
   const super_ast::Block* ast = super_ast::Parse(std::cin);
-  Printer printer;
 
+  Printer printer;
   ast->Accept(printer);
 
   return 0;

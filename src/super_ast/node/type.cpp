@@ -1,26 +1,35 @@
 #include <sstream>
 #include "type.hpp"
+#include "statement/expression/declaration/struct_declaration.hpp"
 
 namespace super_ast {
 namespace {
 std::map<Type*, Type*> vector_types;
+std::map<std::string, Type*> named_types;
+
 const std::string NativeStrings[] = {
     "void",
     "bool",
     "int",
     "double",
     "string",
-    "vector"
+    "vector",
+    "struct"
 };
 }
 
 std::map<Type::Native, Type*> Type::types_;
 
-Type::Type(Native type) : type_(type) {
+Type::Type(Native type) : type_(type), type_definition_(0) {
 
 }
 
-Type::Type(Native type, const std::vector<Type*>& subtypes) : type_(type), subtypes_(subtypes) {
+Type::Type(Native type, const std::vector<Type*>& subtypes) : type_(type), subtypes_(subtypes), type_definition_(0) {
+
+}
+
+
+Type::Type(Type::Native type, Declaration* type_definition) : type_(type), type_definition_(type_definition) {
 
 }
 
@@ -41,11 +50,15 @@ std::string Type::Representation() const {
     ss << ']';
   }
 
+  if(type_definition_) {
+    ss << '[' << type_definition_->name() << ']';
+  }
+
   return ss.str();
 }
 
 bool Type::operator==(const Type& type) {
-  if(type_ != type.type_ || subtypes_.size() != type.subtypes_.size())
+  if(type_ != type.type_ || type_definition_ != type.type_definition_ || subtypes_.size() != type.subtypes_.size())
     return false;
 
   for(int i = 0; i < subtypes_.size(); ++i) {
@@ -90,6 +103,24 @@ Type* Type::Vector(Type* subtype) {
   return vector_type;
 }
 
+Type* Type::Struct(StructDeclaration* struct_declaration) {
+  if(named_types.find(struct_declaration->name()) != named_types.end())
+    return named_types[struct_declaration->name()];
+
+  Type* struct_type = new Type(STRUCT, struct_declaration);
+  named_types[struct_declaration->name()] = struct_type;
+  return struct_type;
+}
+
+Type* Type::ByName(const std::string& name) {
+  std::map<std::string, Type*>::const_iterator it = named_types.find(name);
+
+  if(it != named_types.end())
+    return it->second;
+
+  return 0;
+}
+
 Type* Type::get(Type::Native type) {
   if(types_.find(type) != types_.end())
     return types_[type];
@@ -100,5 +131,4 @@ Type* Type::get(Type::Native type) {
 }
 
 ACCEPT_SELF_IMPL(Type)
-
 }

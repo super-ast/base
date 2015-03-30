@@ -9,11 +9,11 @@
      Run `make` or `make all` to build all the analyzers.
 
 # Current analyzers
-## printer
-Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
-
 ## grapher
 Reads a `super_ast` in `JSON` format and prints a graph in `dot` format that represents the `super_ast`.
+
+## printer
+Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
 
 ```bash
 ./grapher < examples/fibonacci.json | dot -Tps -o fibonacci.ps
@@ -60,6 +60,27 @@ BLOCK
             -
               ID(n)
               INT(2)
+```
+
+#### Structs
+The input can be found in `examples/structs.json`.
+
+```
+BLOCK
+  STRUCT User
+    VAR string name
+    VAR string password
+  VAR struct[User] user
+  =
+    []
+      ID(user)
+      name
+    Rene
+  =
+    []
+      ID(user)
+      password
+    ithinkthereforeiexist
 ```
 
 # JSON format specification
@@ -166,6 +187,13 @@ Attribute      | Value
 `is_reference`*| `bool` (default: `false`) 
 `init`*        | `Expression` (default: `null`)
 
+##### StructDeclaration
+Attribute      | Value
+---------------|-------------
+`type`         | `"struct-declaration"`
+`name`         | `string`
+`attributes`   | `array[VariableDeclaration]`
+
 ## Type
 ### Simple
 Attribute    | Value
@@ -205,16 +233,17 @@ private:
 
 int main() {
   const super_ast::Block* ast = super_ast::Parse(std::cin);
+  
   Printer printer;
-
   ast->Accept(printer);
 
   return 0;
 }
 ```
 
-The `super_ast` accepts any `Visitor` that implements the `super_ast::Visitor` abstract class.
+The `super_ast` nodes accept any `Visitor` that implements the `super_ast::Visitor` abstract class.
 The `Visitor` can control the order in which nodes are visited by calling the method `AcceptChildren` of the visited node.
+Look at the `src/super_ast/visitor.cpp` file to understand how the `Visitor` method delegation works.
 
 # Coding style
 Using ideas from [Google C++ Style Guide](http://google-styleguide.googlecode.com/svn/trunk/cppguide.html)

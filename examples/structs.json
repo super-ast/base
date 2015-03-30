@@ -1,0 +1,65 @@
+{
+  "statements": [
+    {
+      "type": "struct-declaration",
+      "name": "User",
+      "attributes": [
+        {
+          "name": "name",
+          "data-type": {
+            "name": "string"
+          }
+        },
+        {
+          "name": "password",
+          "data-type": {
+            "name": "string"
+          }
+        }
+      ]
+    },
+    {
+      "type": "variable-declaration",
+      "name": "user",
+      "data-type": {
+        "name": "User"
+      }
+    },
+    {
+      "type": "=",
+      "left": {
+        "type": "[]",
+        "left": {
+          "type": "identifier",
+          "value": "user"
+        },
+        "right": {
+          "type": "string",
+          "value": "name"
+        }
+      },
+      "right": {
+        "type": "string",
+        "value": "Rene"
+      }
+    },
+    {
+      "type": "=",
+      "left": {
+        "type": "[]",
+        "left": {
+          "type": "identifier",
+          "value": "user"
+        },
+        "right": {
+          "type": "string",
+          "value": "password"
+        }
+      },
+      "right": {
+        "type": "string",
+        "value": "ithinkthereforeiexist"
+      }
+    }
+  ]
+}

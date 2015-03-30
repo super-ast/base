@@ -29,10 +29,10 @@ private:
 
 int main() {
   const super_ast::Block* ast = super_ast::Parse(std::cin);
-  Grapher grapher;
 
   std::cout << "digraph G {" << std::endl;
 
+  Grapher grapher;
   ast->Accept(grapher);
 
   std::cout << "}" << std::endl;

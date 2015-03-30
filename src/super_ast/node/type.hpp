@@ -4,6 +4,8 @@
 #include <map>
 
 namespace super_ast {
+class StructDeclaration;
+
 /**
 * Type instances are a singleton
 */
@@ -15,6 +17,8 @@ public:
   static Type* Double();
   static Type* String();
   static Type* Vector(Type* subtype);
+  static Type* Struct(StructDeclaration* struct_declaration);
+  static Type* ByName(const std::string& name);
 
   bool operator==(const Type& type);
   bool operator!=(const Type& type);
@@ -29,14 +33,17 @@ private:
     INTEGER,
     DOUBLE,
     STRING,
-    VECTOR
+    VECTOR,
+    STRUCT
   };
 
   Native type_;
+  Declaration* type_definition_;
   std::vector<Type*> subtypes_;
 
   Type(Native type);
   Type(Native type, const std::vector<Type*>& subtypes);
+  Type(Native type, Declaration* type_definition);
   Type& operator=(const Type&);
 
   static std::map<Native, Type*> types_;
