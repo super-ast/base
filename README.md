@@ -198,7 +198,7 @@ Attribute      | Value
 ### Simple
 Attribute    | Value
 -------------|-------------
-`name`       | `string(void, bool, int, double, string)`
+`name`       | `string(void, bool, int, double, string)` or the name of a user-defined type
 
 ### Vector
 Attribute    | Value
