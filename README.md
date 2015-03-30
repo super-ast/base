@@ -12,12 +12,12 @@
 ## grapher
 Reads a `super_ast` in `JSON` format and prints a graph in `dot` format that represents the `super_ast`.
 
-## printer
-Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
-
 ```bash
 ./grapher < examples/fibonacci.json | dot -Tps -o fibonacci.ps
 ```
+
+## printer
+Reads a `super_ast` in `JSON` format and prints the structure of the resulting `super_ast`.
 
 ### Examples
 #### Hello world
