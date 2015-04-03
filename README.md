@@ -173,6 +173,13 @@ Attribute    | Value
 `type`       | `"string"`
 `value`      | `string`
 
+#### Not Supported
+Attribute     | Value
+--------------|-------------
+`type`        | `string(warning, error)`
+`value`       | `string`
+`description`*| `string`
+
 #### Function call
 Attribute    | Value
 -------------|-------------

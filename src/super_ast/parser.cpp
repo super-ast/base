@@ -65,6 +65,9 @@ namespace {
 // Vector
 #define VECTOR_DATA_TYPE_ATTR "data-type"
 
+// Not supported
+#define NOT_SUPPORTED_DESCR_ATTR "description"
+
 
 // ERROR MESSAGES
 #define ERROR_NOT_FOUND     "not found"
@@ -96,6 +99,7 @@ Integer* ParseInteger(const rapidjson::Value& integer_def);
 Double* ParseDouble(const rapidjson::Value& double_def);
 String* ParseString(const rapidjson::Value& string_def);
 FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
+NotSupported* ParseNotSupported(const rapidjson::Value& notsupported_def);
 
 // Parser mappers
 typedef Statement* (*StatementParser)(const rapidjson::Value&);
@@ -155,7 +159,9 @@ std::map<std::string, AtomParser> atom_parsers = {
     {"int",           (AtomParser) ParseInteger},
     {"string",        (AtomParser) ParseString},
     {"double",        (AtomParser) ParseDouble},
-    {"function-call", (AtomParser) ParseFunctionCall}
+    {"function-call", (AtomParser) ParseFunctionCall},
+    {"warning",       (AtomParser) ParseNotSupported},
+    {"error",         (AtomParser) ParseNotSupported}
 };
 
 // Assertion utilities
@@ -481,6 +487,28 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def) {
 
   SetLine(function_call, function_call_def);
   return function_call;
+}
+
+NotSupported* ParseNotSupported(const rapidjson::Value& notsupported_def) {
+  assert_string(notsupported_def, {ATOM_VALUE_ATTR});
+
+  std::string description = "none";
+
+  if(notsupported_def.HasMember("description")) {
+    assert_string(notsupported_def, {NOT_SUPPORTED_DESCR_ATTR});
+
+    description = notsupported_def[NOT_SUPPORTED_DESCR_ATTR].GetString();
+  }
+
+  NotSupported* unsupported = new NotSupported(
+      notsupported_def[TYPE_ATTR].GetString() == std::string("error") ? NotSupported::ERROR
+                                                                     : NotSupported::WARNING,
+      notsupported_def[ATOM_VALUE_ATTR].GetString(),
+      description
+  );
+
+  SetLine(unsupported, notsupported_def);
+  return unsupported;
 }
 }
 

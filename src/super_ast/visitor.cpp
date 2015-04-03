@@ -18,13 +18,16 @@ DELEGATE(Conditional, Statement);
 DELEGATE(Expression, Statement);
 DELEGATE(Loop, Statement);
 
+DELEGATE(For, Loop);
+DELEGATE(While, Loop);
+
 DELEGATE(Atom, Expression);
 DELEGATE(BinaryOperator, Expression);
 DELEGATE(UnaryOperator, Expression);
 DELEGATE(Declaration, Expression);
 
-DELEGATE(For, Loop);
-DELEGATE(While, Loop);
+DELEGATE(FunctionDeclaration, Declaration);
+DELEGATE(VariableDeclaration, Declaration);
 
 DELEGATE(FunctionCall, Atom);
 DELEGATE(Identifier, Atom);
@@ -32,8 +35,5 @@ DELEGATE(Boolean, Atom);
 DELEGATE(Integer, Atom);
 DELEGATE(Double, Atom);
 DELEGATE(String, Atom);
-
-DELEGATE(FunctionDeclaration, Declaration);
-DELEGATE(VariableDeclaration, Declaration);
-
+DELEGATE(NotSupported, Atom);
 }

@@ -23,6 +23,7 @@ class Boolean;
 class Integer;
 class Double;
 class String;
+class NotSupported;
 
 class For;
 class While;
@@ -58,6 +59,7 @@ public:
   VISIT(Integer)
   VISIT(Double)
   VISIT(String)
+  VISIT(NotSupported)
 
   #undef VISIT
 };
