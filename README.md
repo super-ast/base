@@ -149,11 +149,23 @@ Attribute    | Value
 `type`       | `"identifier"`
 `value`      | `string`
 
+#### Boolean
+Attribute    | Value
+-------------|-------------
+`type`       | `"bool"`
+`value`      | `bool`
+
 #### Integer
 Attribute    | Value
 -------------|-------------
 `type`       | `"int"`
 `value`      | `int`
+
+#### Double
+Attribute    | Value
+-------------|-------------
+`type`       | `"double"`
+`value`      | `double`
 
 #### String
 Attribute    | Value

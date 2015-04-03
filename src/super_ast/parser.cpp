@@ -70,6 +70,7 @@ namespace {
 #define ERROR_NOT_FOUND     "not found"
 #define ERROR_NOT_STRING    "is not a string"
 #define ERROR_NOT_INTEGER   "is not an integer"
+#define ERROR_NOT_DOUBLE    "is not a double"
 #define ERROR_NOT_BOOLEAN   "is not a boolean"
 #define ERROR_NOT_ARRAY     "is not an array"
 #define ERROR_NOT_OBJECT    "is not an object"
@@ -90,7 +91,9 @@ While* ParseWhile(const rapidjson::Value& while_def);
 For* ParseFor(const rapidjson::Value& for_def);
 Expression* ParseExpression(const rapidjson::Value& function_def);
 Identifier* ParseIdentifier(const rapidjson::Value& identifier_def);
+Boolean* ParseBoolean(const rapidjson::Value& boolean_def);
 Integer* ParseInteger(const rapidjson::Value& integer_def);
+Double* ParseDouble(const rapidjson::Value& double_def);
 String* ParseString(const rapidjson::Value& string_def);
 FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
 
@@ -148,8 +151,10 @@ std::map<std::string, BinaryOperator::Type> binary_operator_types = {
 typedef Atom* (*AtomParser)(const rapidjson::Value&);
 std::map<std::string, AtomParser> atom_parsers = {
     {"identifier",    (AtomParser) ParseIdentifier},
+    {"bool",          (AtomParser) ParseBoolean},
     {"int",           (AtomParser) ParseInteger},
     {"string",        (AtomParser) ParseString},
+    {"double",        (AtomParser) ParseDouble},
     {"function-call", (AtomParser) ParseFunctionCall}
 };
 
@@ -175,6 +180,7 @@ void assert_##name(const rapidjson::Value& value, const std::vector<std::string>
 
 ASSERT_TYPE(string, IsString, ERROR_NOT_STRING);
 ASSERT_TYPE(int, IsInt, ERROR_NOT_INTEGER);
+ASSERT_TYPE(double, IsDouble, ERROR_NOT_DOUBLE);
 ASSERT_TYPE(boolean, IsBool, ERROR_NOT_BOOLEAN);
 ASSERT_TYPE(array, IsArray, ERROR_NOT_ARRAY);
 ASSERT_TYPE(object, IsObject, ERROR_NOT_OBJECT);
@@ -422,6 +428,15 @@ Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {
   return identifier;
 }
 
+Boolean* ParseBoolean(const rapidjson::Value& boolean_def) {
+  assert_boolean(boolean_def, {ATOM_VALUE_ATTR});
+
+  Boolean* boolean = new Boolean(boolean_def[ATOM_VALUE_ATTR].GetBool());
+
+  SetLine(boolean, boolean_def);
+  return boolean;
+}
+
 Integer* ParseInteger(const rapidjson::Value& integer_def) {
   assert_int(integer_def, {ATOM_VALUE_ATTR});
 
@@ -429,6 +444,15 @@ Integer* ParseInteger(const rapidjson::Value& integer_def) {
 
   SetLine(integer, integer_def);
   return integer;
+}
+
+Double* ParseDouble(const rapidjson::Value& double_def) {
+  assert_double(double_def, {ATOM_VALUE_ATTR});
+
+  Double* double_ = new  Double(double_def[ATOM_VALUE_ATTR].GetDouble());
+
+  SetLine(double_, double_def);
+  return double_;
 }
 
 String* ParseString(const rapidjson::Value& string_def) {

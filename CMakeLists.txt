@@ -28,7 +28,9 @@ set(SOURCE_FILES
     src/super_ast/node/statement/expression/atom.cpp
     src/super_ast/node/statement/expression/atom/function_call.cpp
     src/super_ast/node/statement/expression/atom/identifier.cpp
+    src/super_ast/node/statement/expression/atom/boolean.cpp
     src/super_ast/node/statement/expression/atom/integer.cpp
+    src/super_ast/node/statement/expression/atom/double.cpp
     src/super_ast/node/statement/expression/atom/string.cpp
 
     src/super_ast/node/statement/loop.cpp

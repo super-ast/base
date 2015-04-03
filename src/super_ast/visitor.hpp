@@ -19,7 +19,9 @@ class UnaryOperator;
 
 class FunctionCall;
 class Identifier;
+class Boolean;
 class Integer;
+class Double;
 class String;
 
 class For;
@@ -52,7 +54,9 @@ public:
 
   VISIT(FunctionCall)
   VISIT(Identifier)
+  VISIT(Boolean)
   VISIT(Integer)
+  VISIT(Double)
   VISIT(String)
 
   #undef VISIT

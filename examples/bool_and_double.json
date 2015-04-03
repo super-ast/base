@@ -1,0 +1,12 @@
+{
+  "statements": [
+    {
+      "type": "bool",
+      "value": true
+    },
+    {
+      "type": "double",
+      "value": 3.14159226
+    }
+  ]
+}

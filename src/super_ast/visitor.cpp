@@ -28,7 +28,9 @@ DELEGATE(While, Loop);
 
 DELEGATE(FunctionCall, Atom);
 DELEGATE(Identifier, Atom);
+DELEGATE(Boolean, Atom);
 DELEGATE(Integer, Atom);
+DELEGATE(Double, Atom);
 DELEGATE(String, Atom);
 
 DELEGATE(FunctionDeclaration, Declaration);
