@@ -6,7 +6,9 @@ namespace super_ast {
 class UnaryOperator : public Expression {
 public:
   enum Type {
-    NOT
+    NOT,
+    PRE_INCREMENT,
+    POST_INCREMENT
   };
 
   UnaryOperator(Type type, Expression* expression);

@@ -52,21 +52,10 @@
               }
             },
             "post": {
-              "type": "=",
-              "left": {
+              "type": "++_",
+              "expression": {
                 "type": "identifier",
                 "value": "i"
-              },
-              "right": {
-                "type": "+",
-                "left": {
-                  "type": "identifier",
-                  "value": "i"
-                },
-                "right": {
-                  "type": "int",
-                  "value": 1
-                }
               }
             },
             "block": {

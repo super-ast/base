@@ -133,7 +133,7 @@ Attribute    | Value
 #### Unary operator
 Attribute    | Value
 -------------|-------------
-`type`       | `string(not)`
+`type`       | `string(not, ++_, _++)`
 `expression` | `Expression`
 
 #### Binary operator

@@ -3,7 +3,9 @@
 namespace super_ast {
 namespace {
 const std::string TypeStrings[] = {
-    "NOT"
+    "NOT",
+    "++_",
+    "_++"
 };
 }
 
