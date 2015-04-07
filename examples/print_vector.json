@@ -1,0 +1,90 @@
+{
+  "statements": [
+    {
+      "type": "function-declaration",
+      "name": "print_vector",
+      "return-type": {
+        "name": "void"
+      },
+      "parameters": [
+        {
+          "type": "variable-declaration",
+          "name": "v",
+          "is_constant": true,
+          "is_reference": true,
+          "data-type": {
+            "name": "vector",
+            "data-type": {
+              "name": "int"
+            }
+          }
+        }
+      ],
+      "block": {
+        "statements": [
+          {
+            "type": "for",
+            "init": {
+              "type": "variable-declaration",
+              "name": "i",
+              "data-type": {
+                "name": "int"
+              },
+              "init": {
+                "type": "int",
+                "value": 0
+              }
+            },
+            "condition": {
+              "type": "<",
+              "left": {
+                "type": "identifier",
+                "value": "i"
+              },
+              "right": {
+                "type": ".",
+                "left": {
+                  "type": "identifier",
+                  "value": "v"
+                },
+                "right": {
+                  "type": "function-call",
+                  "name": "size",
+                  "arguments": []
+                }
+              }
+            },
+            "post": {
+              "type": "++_",
+              "expression": {
+                "type": "identifier",
+                "value": "i"
+              }
+            },
+            "block": {
+              "statements": [
+                {
+                  "type": "function-call",
+                  "name": "print",
+                  "arguments": [
+                    {
+                      "type": "[]",
+                      "left": {
+                        "type": "identifier",
+                        "value": "v"
+                      },
+                      "right": {
+                        "type": "identifier",
+                        "value": "i"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

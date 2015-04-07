@@ -16,7 +16,8 @@ const std::string TypeStrings[] = {
     "<",
     "OR",
     "AND",
-    "[]"
+    "[]",
+    "."
 };
 }
 

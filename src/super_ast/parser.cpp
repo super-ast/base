@@ -47,6 +47,7 @@ namespace {
 #define VARIABLE_NAME_ATTR      "name"
 #define VARIABLE_TYPE_ATTR      "data-type"
 #define VARIABLE_REFERENCE_ATTR "is_reference"
+#define VARIABLE_CONSTANT_ATTR  "is_constant"
 #define VARIABLE_INIT_ATTR      "init"
 
 // Struct
@@ -151,7 +152,8 @@ std::map<std::string, BinaryOperator::Type> binary_operator_types = {
     {"<",   BinaryOperator::LESS},
     {"or",  BinaryOperator::OR},
     {"and", BinaryOperator::AND},
-    {"[]",  BinaryOperator::ELEMENT_REFERENCE}
+    {"[]",  BinaryOperator::ELEMENT_REFERENCE},
+    {".",   BinaryOperator::DOT}
 };
 
 typedef Atom* (*AtomParser)(const rapidjson::Value&);
@@ -379,6 +381,7 @@ VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def)
   assert_object(param_def, {VARIABLE_TYPE_ATTR});
 
   bool is_reference = false;
+  bool is_constant = false;
   Expression* value = 0;
 
   if(param_def.HasMember(VARIABLE_REFERENCE_ATTR)) {
@@ -386,6 +389,13 @@ VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def)
 
     is_reference = param_def[VARIABLE_REFERENCE_ATTR].GetBool();
   }
+
+  if(param_def.HasMember(VARIABLE_CONSTANT_ATTR)) {
+    assert_boolean(param_def, {VARIABLE_CONSTANT_ATTR});
+
+    is_constant = param_def[VARIABLE_CONSTANT_ATTR].GetBool();
+  }
+
 
   if(param_def.HasMember(VARIABLE_INIT_ATTR)) {
     assert_object(param_def, {VARIABLE_INIT_ATTR});
@@ -397,6 +407,7 @@ VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def)
       param_def[VARIABLE_NAME_ATTR].GetString(),
       ParseType(param_def[VARIABLE_TYPE_ATTR]),
       is_reference,
+      is_constant,
       value);
 
   SetLine(param_declaration, param_def);
