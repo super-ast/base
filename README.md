@@ -139,7 +139,7 @@ Attribute    | Value
 #### Binary operator
 Attribute    | Value
 -------------|-------------
-`type`       | `string(+, -, *, %, =, <, >, ==, <=, >=, or, and, [])`
+`type`       | `string(+, -, *, %, =, <, >, ==, <=, >=, or, and, [], .)`
 `left`       | `Expression`
 `right`      | `Expression`
 
@@ -203,7 +203,8 @@ Attribute      | Value
 `type`         | `"variable-declaration"`
 `name`         | `string`
 `data-type`    | `Type`
-`is_reference`*| `bool` (default: `false`) 
+`is_reference`*| `bool` (default: `false`)
+`is_constant`* | `bool` (default: `false`)
 `init`*        | `Expression` (default: `null`)
 
 ##### StructDeclaration
