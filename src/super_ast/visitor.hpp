@@ -4,7 +4,7 @@ namespace super_ast {
 class Node;
 class Block;
 class Statement;
-class Type;
+class TypeReference;
 
 class Conditional;
 class Declaration;
@@ -36,7 +36,7 @@ public:
   VISIT(Node)
   VISIT(Block)
   VISIT(Statement)
-  VISIT(Type)
+  VISIT(TypeReference)
 
   VISIT(Conditional)
   VISIT(Declaration)

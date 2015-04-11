@@ -10,6 +10,7 @@ namespace super_ast {
 namespace {
 // ATTRIBUTE NAMES
 // Node
+#define ID_ATTR   "id"
 #define TYPE_ATTR "type"
 
 // Statement
@@ -86,6 +87,7 @@ Statement* ParseStatement(const rapidjson::Value& statement_def);
 FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_def);
 VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def);
 StructDeclaration* ParseStructDeclaration(const rapidjson::Value& struct_def);
+TypeReference* ParseTypeReference(const rapidjson::Value& type_def);
 Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
@@ -195,6 +197,13 @@ ASSERT_TYPE(boolean, IsBool, ERROR_NOT_BOOLEAN);
 ASSERT_TYPE(array, IsArray, ERROR_NOT_ARRAY);
 ASSERT_TYPE(object, IsObject, ERROR_NOT_OBJECT);
 
+// Sets identifier of node
+void SetId(Node* node, const rapidjson::Value& definition) {
+  assert_int(definition, {ID_ATTR});
+
+  node->set_id(definition[ID_ATTR].GetInt());
+}
+
 // Sets line number of statements
 void SetLine(Statement* statement, const rapidjson::Value& definition) {
   if(definition.HasMember(LINE_ATTR)) {
@@ -214,6 +223,7 @@ Block* ParseBlock(const rapidjson::Value& block_def) {
     block->AppendStatement(ParseStatement(statements[i]));
   }
 
+  SetId(block, block_def);
   return block;
 }
 
@@ -229,6 +239,13 @@ Statement* ParseStatement(const rapidjson::Value& statement_def) {
   }
 
   return statement;
+}
+
+TypeReference* ParseTypeReference(const rapidjson::Value& type_def) {
+  TypeReference* type_reference = new TypeReference(ParseType(type_def));
+
+  SetId(type_reference, type_def);
+  return type_reference;
 }
 
 Type* ParseType(const rapidjson::Value& type_def) {
@@ -267,7 +284,9 @@ Return* ParseReturn(const rapidjson::Value& return_def) {
 
   Return* return_statement = new Return(ParseExpression(return_def[RETURN_EXPRESSION_ATTR]));
 
+  SetId(return_statement, return_def);
   SetLine(return_statement, return_def);
+
   return return_statement;
 }
 
@@ -288,7 +307,9 @@ Conditional* ParseConditional(const rapidjson::Value& conditional_def) {
       else_block
   );
 
+  SetId(conditional, conditional_def);
   SetLine(conditional, conditional_def);
+
   return conditional;
 }
 
@@ -300,7 +321,9 @@ While* ParseWhile(const rapidjson::Value& while_def) {
       ParseBlock(while_def[LOOP_BLOCK_ATTR])
   );
 
+  SetId(whilE, while_def);
   SetLine(whilE, while_def);
+
   return whilE;
 }
 
@@ -314,7 +337,9 @@ For* ParseFor(const rapidjson::Value& for_def) {
       ParseBlock(for_def[LOOP_BLOCK_ATTR])
   );
 
+  SetId(foR, for_def);
   SetLine(foR, for_def);
+
   return foR;
 }
 
@@ -333,7 +358,9 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
     UnaryOperator* uny_operator = new UnaryOperator(unary_operator_types[type],
         ParseExpression(expr_def[UNARY_EXPRESSION_ATTR]));
 
+    SetId(uny_operator, expr_def);
     SetLine(uny_operator, expr_def);
+
     return uny_operator;
   }
 
@@ -343,7 +370,9 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
         ParseExpression(expr_def[BINARY_LEFT_ATTR]),
         ParseExpression(expr_def[BINARY_RIGHT_ATTR]));
 
+    SetId(bin_operator, expr_def);
     SetLine(bin_operator, expr_def);
+
     return bin_operator;
   }
 
@@ -368,11 +397,13 @@ FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_
 
   FunctionDeclaration* func_declaration = new FunctionDeclaration(
       function_def[FUNCTION_NAME_ATTR].GetString(),
-      ParseType(function_def[FUNCTION_RETURN_TYPE_ATTR]),
+      ParseTypeReference(function_def[FUNCTION_RETURN_TYPE_ATTR]),
       params,
       ParseBlock(function_def[FUNCTION_BLOCK_ATTR]));
 
+  SetId(func_declaration, function_def);
   SetLine(func_declaration, function_def);
+
   return func_declaration;
 }
 
@@ -405,12 +436,14 @@ VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def)
 
   VariableDeclaration* param_declaration = new VariableDeclaration(
       param_def[VARIABLE_NAME_ATTR].GetString(),
-      ParseType(param_def[VARIABLE_TYPE_ATTR]),
+      ParseTypeReference(param_def[VARIABLE_TYPE_ATTR]),
       is_reference,
       is_constant,
       value);
 
+  SetId(param_declaration, param_def);
   SetLine(param_declaration, param_def);
+
   return param_declaration;
 }
 
@@ -430,6 +463,7 @@ StructDeclaration* ParseStructDeclaration(const rapidjson::Value& struct_def) {
       attributes
   );
 
+  SetId(struct_declaration, struct_def);
   SetLine(struct_declaration, struct_def);
 
   // Register type
@@ -443,7 +477,9 @@ Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {
 
   Identifier* identifier = new Identifier(identifier_def[ATOM_VALUE_ATTR].GetString());
 
+  SetId(identifier, identifier_def);
   SetLine(identifier, identifier_def);
+
   return identifier;
 }
 
@@ -452,7 +488,9 @@ Boolean* ParseBoolean(const rapidjson::Value& boolean_def) {
 
   Boolean* boolean = new Boolean(boolean_def[ATOM_VALUE_ATTR].GetBool());
 
+  SetId(boolean, boolean_def);
   SetLine(boolean, boolean_def);
+
   return boolean;
 }
 
@@ -461,7 +499,9 @@ Integer* ParseInteger(const rapidjson::Value& integer_def) {
 
   Integer* integer = new Integer(integer_def[ATOM_VALUE_ATTR].GetInt());
 
+  SetId(integer, integer_def);
   SetLine(integer, integer_def);
+
   return integer;
 }
 
@@ -470,7 +510,9 @@ Double* ParseDouble(const rapidjson::Value& double_def) {
 
   Double* double_ = new  Double(double_def[ATOM_VALUE_ATTR].GetDouble());
 
+  SetId(double_, double_def);
   SetLine(double_, double_def);
+
   return double_;
 }
 
@@ -479,7 +521,9 @@ String* ParseString(const rapidjson::Value& string_def) {
 
   String* string = new String(string_def[ATOM_VALUE_ATTR].GetString());
 
+  SetId(string, string_def);
   SetLine(string, string_def);
+
   return string;
 }
 
@@ -498,7 +542,9 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def) {
       function_call_def[FUNCTION_NAME_ATTR].GetString(),
       arguments);
 
+  SetId(function_call, function_call_def);
   SetLine(function_call, function_call_def);
+
   return function_call;
 }
 
@@ -520,7 +566,9 @@ NotSupported* ParseNotSupported(const rapidjson::Value& notsupported_def) {
       description
   );
 
+  SetId(unsupported, notsupported_def);
   SetLine(unsupported, notsupported_def);
+
   return unsupported;
 }
 }

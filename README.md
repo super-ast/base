@@ -24,69 +24,74 @@ Reads a `super_ast` in `JSON` format and prints the structure of the resulting `
 The input can be found in `examples/hello_world.json`.
 
 ```
-BLOCK
-  FUNCTION int main
-    BLOCK
-      FUNCTION_CALL print
-        +
-          Hello world!
-          \n
-      RETURN
-        INT(0)
+0    BLOCK
+1      FUNCTION int main
+3        BLOCK
+4          FUNCTION_CALL print
+5            +
+6              Hello world!
+7              \n
+8          RETURN
+9            INT(0)
 ```
 
 #### Fibonacci
 The input can be found in `examples/fibonacci.json`.
 
 ```
-BLOCK
-  FUNCTION int fibonacci
-    VAR int n
-    BLOCK
-      CONDITIONAL
-        <=
-          ID(n)
-          INT(1)
-        BLOCK
-          RETURN
-            ID(n)
-      RETURN
-        +
-          FUNCTION_CALL fibonacci
-            -
-              ID(n)
-              INT(1)
-          FUNCTION_CALL fibonacci
-            -
-              ID(n)
-              INT(2)
+0    BLOCK
+1      FUNCTION int fibonacci
+3        VAR int n
+5        BLOCK
+6          CONDITIONAL
+7            <=
+8              ID(n)
+9              INT(1)
+10           BLOCK
+11             RETURN
+12               ID(n)
+13         RETURN
+14           +
+15             FUNCTION_CALL fibonacci
+16               -
+17                 ID(n)
+18                 INT(1)
+19             FUNCTION_CALL fibonacci
+20               -
+21                 ID(n)
+22                 INT(2)
 ```
 
 #### Structs
 The input can be found in `examples/structs.json`.
 
 ```
-BLOCK
-  STRUCT User
-    VAR string name
-    VAR string password
-  VAR struct[User] user
-  =
-    []
-      ID(user)
-      name
-    Rene
-  =
-    []
-      ID(user)
-      password
-    ithinkthereforeiexist
+0    BLOCK
+1      STRUCT User
+2        VAR string name
+4        VAR string password
+6      VAR struct[User] user
+8      =
+9        []
+10         ID(user)
+11         name
+12       Rene
+13     =
+14       []
+15         ID(user)
+16         password
+17       ithinkthereforeiexist
 ```
 
 # JSON format specification
   1. Every object in `JSON` represents a node of the `super_ast`.
   2. The root node of the `super_ast` is a `Block` node.
   3. If an attribute is marked with `*` then that attribute is optional.
+
+# Node
+Attribute    | Value
+-------------|-------------
+`id`         | `int`
 
 ## Block
 Attribute    | Value
@@ -214,7 +219,7 @@ Attribute      | Value
 `name`         | `string`
 `attributes`   | `array[VariableDeclaration]`
 
-## Type
+## TypeReference
 ### Simple
 Attribute    | Value
 -------------|-------------
@@ -231,6 +236,7 @@ The `printer` analyzer shows a simple visitor that prints visited nodes properly
 
 ```c++
 #include <iostream>
+#include <iomanip>
 #include "super_ast.hpp"
 
 class Printer : public super_ast::Visitor {
@@ -240,7 +246,8 @@ public:
   }
 
   void Visit(const super_ast::Node* node) {
-    std::cout << std::string(depth_ * 2, ' ') << node->Representation() << std::endl;
+    std::cout << std::left << std::setw(5) << node->id() <<
+        std::string(depth_ * 2, ' ') << node->Representation() << std::endl;
 
     depth_++;
     node->AcceptChildren(*this);
@@ -253,7 +260,7 @@ private:
 
 int main() {
   const super_ast::Block* ast = super_ast::Parse(std::cin);
-  
+
   Printer printer;
   ast->Accept(printer);
 

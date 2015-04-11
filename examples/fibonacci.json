@@ -1,40 +1,53 @@
 {
+  "id": 0,
   "statements": [
     {
+      "id": 1,
       "line": 4,
       "type": "function-declaration",
       "name": "fibonacci",
       "return-type": {
+        "id": 2,
         "name": "int"
       },
       "parameters": [
         {
+          "id": 3,
           "name": "n",
           "data-type": {
+            "id": 4,
             "name": "int"
           }
         }
       ],
       "block": {
+        "id": 5,
         "statements": [
           {
+            "id": 6,
             "type": "conditional",
             "condition": {
+              "id": 7,
               "left": {
+                "id": 8,
                 "type": "identifier",
                 "value": "n"
               },
               "type": "<=",
               "right": {
+                "id": 9,
                 "type": "int",
                 "value": 1
               }
             },
             "then": {
+              "id": 10,
               "statements": [
                 {
+                  "id": 11,
                   "type": "return",
                   "expression": {
+                    "id": 12,
                     "type": "identifier",
                     "value": "n"
                   }
@@ -43,19 +56,25 @@
             }
           },
           {
+            "id": 13,
             "type": "return",
             "expression": {
+              "id": 14,
               "left": {
+                "id": 15,
                 "type": "function-call",
                 "name": "fibonacci",
                 "arguments": [
                   {
+                    "id": 16,
                     "left": {
+                      "id": 17,
                       "type": "identifier",
                       "value": "n"
                     },
                     "type": "-",
                     "right": {
+                      "id": 18,
                       "type": "int",
                       "value": 1
                     }
@@ -64,16 +83,20 @@
               },
               "type": "+",
               "right": {
+                "id": 19,
                 "type": "function-call",
                 "name": "fibonacci",
                 "arguments": [
                   {
+                    "id": 20,
                     "left": {
+                      "id": 21,
                       "type": "identifier",
                       "value": "n"
                     },
                     "type": "-",
                     "right": {
+                      "id": 22,
                       "type": "int",
                       "value": 2
                     }

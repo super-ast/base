@@ -3,12 +3,13 @@
 */
 
 // Node abstraction
+#include "super_ast/type.hpp"
 #include "super_ast/node_map.hpp"
 #include "super_ast/node.hpp"
 
 // Main nodes
+#include "super_ast/node/type_reference.hpp"
 #include "super_ast/node/block.hpp"
-#include "super_ast/node/type.hpp"
 
 // - Statements
 #include "super_ast/node/statement.hpp"

@@ -1,62 +1,80 @@
 {
+  "id": 0,
   "statements": [
     {
+      "id": 1,
       "type": "struct-declaration",
       "name": "User",
       "attributes": [
         {
+          "id": 2,
           "name": "name",
           "data-type": {
+            "id": 3,
             "name": "string"
           }
         },
         {
+          "id": 4,
           "name": "password",
           "data-type": {
+            "id": 5,
             "name": "string"
           }
         }
       ]
     },
     {
+      "id": 6,
       "type": "variable-declaration",
       "name": "user",
       "data-type": {
+        "id": 7,
         "name": "User"
       }
     },
     {
+      "id": 8,
       "type": "=",
       "left": {
+        "id": 9,
         "type": "[]",
         "left": {
+          "id": 10,
           "type": "identifier",
           "value": "user"
         },
         "right": {
+          "id": 11,
           "type": "string",
           "value": "name"
         }
       },
       "right": {
+        "id": 12,
         "type": "string",
         "value": "Rene"
       }
     },
     {
+      "id": 13,
       "type": "=",
       "left": {
+        "id": 14,
         "type": "[]",
         "left": {
+          "id": 15,
           "type": "identifier",
           "value": "user"
         },
         "right": {
+          "id": 16,
           "type": "string",
           "value": "password"
         }
       },
       "right": {
+        "id": 17,
         "type": "string",
         "value": "ithinkthereforeiexist"
       }

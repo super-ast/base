@@ -1,7 +1,7 @@
 #include "function_declaration.hpp"
 
 namespace super_ast {
-FunctionDeclaration::FunctionDeclaration(const std::string& name, Type* return_type,
+FunctionDeclaration::FunctionDeclaration(const std::string& name, TypeReference* return_type,
     const std::vector<VariableDeclaration*>& parameters, Block* body) : super(name), return_type_(return_type),
     parameters_(parameters), body_(body) {
 
@@ -15,7 +15,7 @@ FunctionDeclaration::~FunctionDeclaration() {
   delete body_;
 }
 
-const Type& FunctionDeclaration::return_type() const {
+const TypeReference& FunctionDeclaration::return_type() const {
   return *return_type_;
 }
 

@@ -9,12 +9,12 @@ namespace super_ast {
 class FunctionDeclaration : public Declaration {
 public:
   typedef Declaration super;
-  FunctionDeclaration(const std::string& name, Type* return_type,
+  FunctionDeclaration(const std::string& name, TypeReference* return_type,
       const std::vector<VariableDeclaration*>& parameters, Block* body);
 
   ~FunctionDeclaration();
 
-  const Type& return_type() const;
+  const TypeReference& return_type() const;
   const std::vector<VariableDeclaration*>& parameters() const;
   const Block& body() const;
 
@@ -25,7 +25,7 @@ public:
   virtual bool HasChildren() const;
 
 private:
-  Type* return_type_;
+  TypeReference* return_type_;
   std::vector<VariableDeclaration*> parameters_;
   Block* body_;
 };

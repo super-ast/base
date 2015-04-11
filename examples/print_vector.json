@@ -1,53 +1,69 @@
 {
+  "id": 0,
   "statements": [
     {
+      "id": 1,
       "type": "function-declaration",
       "name": "print_vector",
       "return-type": {
+        "id": 2,
         "name": "void"
       },
       "parameters": [
         {
+          "id": 3,
           "type": "variable-declaration",
           "name": "v",
           "is_constant": true,
           "is_reference": true,
           "data-type": {
+            "id": 4,
             "name": "vector",
             "data-type": {
+              "id": 5,
               "name": "int"
             }
           }
         }
       ],
       "block": {
+        "id": 6,
         "statements": [
           {
+            "id": 7,
             "type": "for",
             "init": {
+              "id": 8,
               "type": "variable-declaration",
               "name": "i",
               "data-type": {
+                "id": 9,
                 "name": "int"
               },
               "init": {
+                "id": 10,
                 "type": "int",
                 "value": 0
               }
             },
             "condition": {
+              "id": 11,
               "type": "<",
               "left": {
+                "id": 12,
                 "type": "identifier",
                 "value": "i"
               },
               "right": {
+                "id": 13,
                 "type": ".",
                 "left": {
+                  "id": 14,
                   "type": "identifier",
                   "value": "v"
                 },
                 "right": {
+                  "id": 15,
                   "type": "function-call",
                   "name": "size",
                   "arguments": []
@@ -55,25 +71,32 @@
               }
             },
             "post": {
+              "id": 16,
               "type": "++_",
               "expression": {
+                "id": 17,
                 "type": "identifier",
                 "value": "i"
               }
             },
             "block": {
+              "id": 18,
               "statements": [
                 {
+                  "id": 19,
                   "type": "function-call",
                   "name": "print",
                   "arguments": [
                     {
+                      "id": 20,
                       "type": "[]",
                       "left": {
+                        "id": 21,
                         "type": "identifier",
                         "value": "v"
                       },
                       "right": {
+                        "id": 22,
                         "type": "identifier",
                         "value": "i"
                       }

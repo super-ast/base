@@ -25,4 +25,8 @@ bool Node::HasChildren() const {
 unsigned int Node::id() const {
   return id_;
 }
+
+void Node::set_id(unsigned int id) {
+  id_ = id;
+}
 }

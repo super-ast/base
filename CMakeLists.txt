@@ -6,11 +6,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
     src/super_ast/parser.cpp
     src/super_ast/visitor.cpp
+    src/super_ast/type.cpp
     src/super_ast/node_map.hpp
     src/super_ast/node.cpp
 
+    src/super_ast/node/type_reference.cpp
     src/super_ast/node/block.cpp
-    src/super_ast/node/type.cpp
 
     src/super_ast/node/statement.cpp
     src/super_ast/node/statement/conditional.cpp

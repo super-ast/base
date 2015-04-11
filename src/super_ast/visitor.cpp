@@ -12,7 +12,7 @@ void Visitor::Visit(const Node* node) {
 
 DELEGATE(Block, Node);
 DELEGATE(Statement, Node);
-DELEGATE(Type, Node);
+DELEGATE(TypeReference, Node);
 
 DELEGATE(Conditional, Statement);
 DELEGATE(Expression, Statement);

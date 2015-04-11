@@ -2,19 +2,22 @@
 #include <sstream>
 
 namespace super_ast {
-VariableDeclaration::VariableDeclaration(const std::string& name, Type* data_type, bool is_reference,
-    bool is_constant, Expression* initialization) : super(name), data_type_(data_type),
-                                                    is_reference_(is_reference), is_constant_(is_constant),
-                                                    initialization_(initialization) {
+VariableDeclaration::VariableDeclaration(const std::string& name, TypeReference* data_type,
+                                         bool is_reference, bool is_constant, Expression* initialization)
+    : super(name), data_type_(data_type), is_reference_(is_reference), is_constant_(is_constant),
+      initialization_(initialization) {
 
 }
 
 VariableDeclaration::~VariableDeclaration() {
+  delete data_type_;
 
+  if(HasInitialization())
+    delete initialization_;
 }
 
 
-const Type& VariableDeclaration::data_type() const {
+const TypeReference& VariableDeclaration::data_type() const {
   return *data_type_;
 }
 

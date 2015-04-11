@@ -1,6 +1,8 @@
 {
+  "id": 0,
   "statements": [
     {
+      "id": 1,
       "type": "error",
       "value": "goto 3",
       "description": "It's not the 60s anymore..."

@@ -16,6 +16,7 @@ class Node {
 public:
   Node();
 
+  void set_id(unsigned int id);
   unsigned int id() const;
 
   virtual std::string Representation() const;

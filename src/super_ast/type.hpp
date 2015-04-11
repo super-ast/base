@@ -1,5 +1,5 @@
 #pragma once
-#include "../node.hpp"
+#include "node.hpp"
 #include <vector>
 #include <map>
 
@@ -9,7 +9,7 @@ class StructDeclaration;
 /**
 * Type instances are a singleton
 */
-class Type : public Node {
+class Type {
 public:
   static Type* Void();
   static Type* Boolean();
@@ -23,8 +23,6 @@ public:
   bool operator==(const Type& type);
   bool operator!=(const Type& type);
   virtual std::string Representation() const;
-
-  ACCEPT_SELF
 
 private:
   enum Native {

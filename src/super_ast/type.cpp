@@ -1,6 +1,6 @@
 #include <sstream>
 #include "type.hpp"
-#include "statement/expression/declaration/struct_declaration.hpp"
+#include "node/statement/expression/declaration/struct_declaration.hpp"
 
 namespace super_ast {
 namespace {
@@ -129,6 +129,4 @@ Type* Type::get(Type::Native type) {
   types_[type] = type_;
   return type_;
 }
-
-ACCEPT_SELF_IMPL(Type)
 }
