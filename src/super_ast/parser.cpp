@@ -136,8 +136,12 @@ std::map<std::string, TypeParser> type_parsers = {
 
 std::map<std::string, UnaryOperator::Type> unary_operator_types = {
     {"not", UnaryOperator::NOT},
+    {"neg", UnaryOperator::NEG},
+    {"pos", UnaryOperator::POS},
     {"++_", UnaryOperator::PRE_INCREMENT},
-    {"_++", UnaryOperator::POST_INCREMENT}
+    {"_++", UnaryOperator::POST_INCREMENT},
+    {"--_", UnaryOperator::PRE_DECREMENT},
+    {"_--", UnaryOperator::POST_DECREMENT}
 };
 
 std::map<std::string, BinaryOperator::Type> binary_operator_types = {

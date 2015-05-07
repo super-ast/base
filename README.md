@@ -138,7 +138,7 @@ Attribute    | Value
 #### Unary operator
 Attribute    | Value
 -------------|-------------
-`type`       | `string(not, ++_, _++)`
+`type`       | `string(not, neg, pos, ++_, _++, --_, _--)`
 `expression` | `Expression`
 
 #### Binary operator

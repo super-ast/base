@@ -4,8 +4,12 @@ namespace super_ast {
 namespace {
 const std::string TypeStrings[] = {
     "NOT",
+    "NEG(-)",
+    "POS(+)",
     "++_",
-    "_++"
+    "_++",
+    "--_",
+    "_--"
 };
 }
 

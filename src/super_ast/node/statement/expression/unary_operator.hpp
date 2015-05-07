@@ -7,8 +7,12 @@ class UnaryOperator : public Expression {
 public:
   enum Type {
     NOT,
+    NEG,
+    POS,
     PRE_INCREMENT,
-    POST_INCREMENT
+    POST_INCREMENT,
+    PRE_DECREMENT,
+    POST_DECREMENT
   };
 
   UnaryOperator(Type type, Expression* expression);

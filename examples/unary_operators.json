@@ -1,0 +1,68 @@
+{
+  "id": 0,
+  "statements": [
+    {
+      "id": 1,
+      "type": "not",
+      "expression": {
+        "id": 2,
+        "type": "identifier",
+        "value": "a"
+      }
+    },
+    {
+      "id": 3,
+      "type": "neg",
+      "expression": {
+        "id": 4,
+        "type": "identifier",
+        "value": "a"
+      }
+    },
+    {
+      "id": 5,
+      "type": "pos",
+      "expression": {
+        "id": 6,
+        "type": "identifier",
+        "value": "a"
+      }
+    },
+    {
+      "id": 6,
+      "type": "++_",
+      "expression": {
+        "id": 7,
+        "type": "identifier",
+        "value": "a"
+      }
+    },
+    {
+      "id": 8,
+      "type": "_++",
+      "expression": {
+        "id": 9,
+        "type": "identifier",
+        "value": "a"
+      }
+    },
+    {
+      "id": 10,
+      "type": "--_",
+      "expression": {
+        "id": 11,
+        "type": "identifier",
+        "value": "a"
+      }
+    },
+    {
+      "id": 12,
+      "type": "_--",
+      "expression": {
+        "id": 13,
+        "type": "identifier",
+        "value": "a"
+      }
+    }
+  ]
+}
