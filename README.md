@@ -199,7 +199,7 @@ Attribute     | Value
 `type`        | `"function"`
 `name`        | `string`
 `parameters`  | `array[VariableDeclaration]`
-`return-type` | `Type`
+`return-type` | `TypeReference`
 `block`       | `Block`
 
 ##### VariableDeclaration
@@ -207,7 +207,7 @@ Attribute      | Value
 ---------------|-------------
 `type`         | `"variable-declaration"`
 `name`         | `string`
-`data-type`    | `Type`
+`data-type`    | `TypeReference`
 `is_reference`*| `bool` (default: `false`)
 `is_constant`* | `bool` (default: `false`)
 `init`*        | `Expression` (default: `null`)
@@ -229,7 +229,7 @@ Attribute    | Value
 Attribute    | Value
 -------------|-------------
 `name`       | `"vector"`
-`data-type`  | `Type`
+`data-type`  | `TypeReference`
 
 # Visitor pattern example
 The `printer` analyzer shows a simple visitor that prints visited nodes properly indented:
