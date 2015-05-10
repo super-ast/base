@@ -20,7 +20,7 @@ public:
   static Type* Struct(StructDeclaration* struct_declaration);
   static Type* ByName(const std::string& name);
 
-  bool operator==(const Type& type);
+  bool operator==(const Type& type) const;
   bool operator!=(const Type& type);
   virtual std::string Representation() const;
 

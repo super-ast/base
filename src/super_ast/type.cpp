@@ -57,7 +57,7 @@ std::string Type::Representation() const {
   return ss.str();
 }
 
-bool Type::operator==(const Type& type) {
+bool Type::operator==(const Type& type) const {
   if(type_ != type.type_ || type_definition_ != type.type_definition_ || subtypes_.size() != type.subtypes_.size())
     return false;
 
