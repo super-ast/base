@@ -1,0 +1,51 @@
+{
+  "id": 0,
+  "statements": [
+    {
+      "id": 1,
+      "type": "conditional",
+      "condition": {
+        "id": 2,
+        "type": "<",
+        "left": {
+          "id": 3,
+          "type": "identifier",
+          "value": "a"
+        },
+        "right": {
+          "id": 4,
+          "type": "int",
+          "value": 1
+        }
+      },
+      "then": {
+        "id": 5,
+        "statements": [
+          {
+            "id": 6,
+            "type": "return",
+            "expression": {
+              "id": 7,
+              "type": "bool",
+              "value": true
+            }
+          }
+        ]
+      },
+      "else": {
+        "id": 8,
+        "statements": [
+          {
+            "id": 9,
+            "type": "return",
+            "expression": {
+              "id": 10,
+              "type": "bool",
+              "value": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

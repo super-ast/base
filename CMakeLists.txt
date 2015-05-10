@@ -47,3 +47,4 @@ include_directories(
 
 add_executable(printer src/super_ast/analyzer/printer.cpp ${SOURCE_FILES})
 add_executable(grapher src/super_ast/analyzer/grapher.cpp ${SOURCE_FILES})
+add_executable(useless_conditionals src/super_ast/analyzer/useless_conditionals.cpp ${SOURCE_FILES})
