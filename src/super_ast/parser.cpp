@@ -195,15 +195,24 @@ void assert_##name(const rapidjson::Value& value, const std::vector<std::string>
 }
 
 ASSERT_TYPE(string, IsString, ERROR_NOT_STRING);
-ASSERT_TYPE(int, IsInt, ERROR_NOT_INTEGER);
 ASSERT_TYPE(double, IsDouble, ERROR_NOT_DOUBLE);
 ASSERT_TYPE(boolean, IsBool, ERROR_NOT_BOOLEAN);
 ASSERT_TYPE(array, IsArray, ERROR_NOT_ARRAY);
 ASSERT_TYPE(object, IsObject, ERROR_NOT_OBJECT);
 
+void assert_int(const rapidjson::Value& value, const std::vector<std::string>& attrs, bool int64) {
+  assert_has(value, attrs);
+
+  for(const std::string& attr : attrs) {
+    if(!(value[attr.c_str()].IsInt() || (int64 && value[attr.c_str()].IsInt64()))) {
+      throw AttributeError(attr, ERROR_NOT_INTEGER, value);
+    }
+  }
+}
+
 // Sets identifier of node
 void SetId(Node* node, const rapidjson::Value& definition) {
-  assert_int(definition, {ID_ATTR});
+  assert_int(definition, {ID_ATTR}, false);
 
   node->set_id(definition[ID_ATTR].GetInt());
 }
@@ -211,7 +220,7 @@ void SetId(Node* node, const rapidjson::Value& definition) {
 // Sets line number of statements
 void SetLine(Statement* statement, const rapidjson::Value& definition) {
   if(definition.HasMember(LINE_ATTR)) {
-    assert_int(definition, {LINE_ATTR});
+    assert_int(definition, {LINE_ATTR}, false);
     statement->set_line((unsigned int) definition[LINE_ATTR].GetInt());
   }
 }
@@ -499,9 +508,18 @@ Boolean* ParseBoolean(const rapidjson::Value& boolean_def) {
 }
 
 Integer* ParseInteger(const rapidjson::Value& integer_def) {
-  assert_int(integer_def, {ATOM_VALUE_ATTR});
+  assert_int(integer_def, {ATOM_VALUE_ATTR}, true);
 
-  Integer* integer = new Integer(integer_def[ATOM_VALUE_ATTR].GetInt());
+  const rapidjson::Value& value_def = integer_def[ATOM_VALUE_ATTR];
+  int value;
+
+  if(value_def.IsInt()) {
+    value_def.GetInt();
+  } else {
+    value = value_def.GetInt64();
+  }
+
+  Integer* integer = new Integer(value);
 
   SetId(integer, integer_def);
   SetLine(integer, integer_def);
