@@ -1,0 +1,33 @@
+{
+  "id": 0,
+  "statements": [
+    {
+      "id": 1,
+      "type": "+=",
+      "left": {
+        "id": 2,
+        "type": "identifier",
+        "value": "i"
+      },
+      "right": {
+        "id": 3,
+        "type": "int",
+        "value": 2
+      }
+    },
+    {
+      "id": 1,
+      "type": ">>=",
+      "left": {
+        "id": 4,
+        "type": "identifier",
+        "value": "i"
+      },
+      "right": {
+        "id": 5,
+        "type": "int",
+        "value": 2
+      }
+    }
+  ]
+}
