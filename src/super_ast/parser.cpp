@@ -529,7 +529,7 @@ Integer* ParseInteger(const rapidjson::Value& integer_def) {
   int value;
 
   if(value_def.IsInt()) {
-    value_def.GetInt();
+    value = value_def.GetInt();
   } else {
     value = value_def.GetInt64();
   }
