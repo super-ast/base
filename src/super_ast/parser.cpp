@@ -14,7 +14,8 @@ namespace {
 #define TYPE_ATTR "type"
 
 // Statement
-#define LINE_ATTR "line"
+#define LINE_ATTR   "line"
+#define COLUMN_ATTR "column"
 
 // Block
 #define BLOCK_STATEMENTS_ATTR "statements"
@@ -218,10 +219,15 @@ void SetId(Node* node, const rapidjson::Value& definition) {
 }
 
 // Sets line number of statements
-void SetLine(Statement* statement, const rapidjson::Value& definition) {
+void SetLineOrColumn(Statement *statement, const rapidjson::Value &definition) {
   if(definition.HasMember(LINE_ATTR)) {
     assert_int(definition, {LINE_ATTR}, false);
     statement->set_line((unsigned int) definition[LINE_ATTR].GetInt());
+  }
+
+  if(definition.HasMember(COLUMN_ATTR)) {
+    assert_int(definition, {COLUMN_ATTR}, false);
+    statement->set_column((unsigned int) definition[COLUMN_ATTR].GetInt());
   }
 }
 
@@ -298,7 +304,7 @@ Return* ParseReturn(const rapidjson::Value& return_def) {
   Return* return_statement = new Return(ParseExpression(return_def[RETURN_EXPRESSION_ATTR]));
 
   SetId(return_statement, return_def);
-  SetLine(return_statement, return_def);
+  SetLineOrColumn(return_statement, return_def);
 
   return return_statement;
 }
@@ -321,7 +327,7 @@ Conditional* ParseConditional(const rapidjson::Value& conditional_def) {
   );
 
   SetId(conditional, conditional_def);
-  SetLine(conditional, conditional_def);
+  SetLineOrColumn(conditional, conditional_def);
 
   return conditional;
 }
@@ -335,7 +341,7 @@ While* ParseWhile(const rapidjson::Value& while_def) {
   );
 
   SetId(whilE, while_def);
-  SetLine(whilE, while_def);
+  SetLineOrColumn(whilE, while_def);
 
   return whilE;
 }
@@ -351,7 +357,7 @@ For* ParseFor(const rapidjson::Value& for_def) {
   );
 
   SetId(foR, for_def);
-  SetLine(foR, for_def);
+  SetLineOrColumn(foR, for_def);
 
   return foR;
 }
@@ -372,7 +378,7 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
         ParseExpression(expr_def[UNARY_EXPRESSION_ATTR]));
 
     SetId(uny_operator, expr_def);
-    SetLine(uny_operator, expr_def);
+    SetLineOrColumn(uny_operator, expr_def);
 
     return uny_operator;
   }
@@ -384,7 +390,7 @@ Expression* ParseExpression(const rapidjson::Value& expr_def) {
         ParseExpression(expr_def[BINARY_RIGHT_ATTR]));
 
     SetId(bin_operator, expr_def);
-    SetLine(bin_operator, expr_def);
+    SetLineOrColumn(bin_operator, expr_def);
 
     return bin_operator;
   }
@@ -415,7 +421,7 @@ FunctionDeclaration* ParseFunctionDecalaration(const rapidjson::Value& function_
       ParseBlock(function_def[FUNCTION_BLOCK_ATTR]));
 
   SetId(func_declaration, function_def);
-  SetLine(func_declaration, function_def);
+  SetLineOrColumn(func_declaration, function_def);
 
   return func_declaration;
 }
@@ -455,7 +461,7 @@ VariableDeclaration* ParseVariableDeclaration(const rapidjson::Value& param_def)
       value);
 
   SetId(param_declaration, param_def);
-  SetLine(param_declaration, param_def);
+  SetLineOrColumn(param_declaration, param_def);
 
   return param_declaration;
 }
@@ -477,7 +483,7 @@ StructDeclaration* ParseStructDeclaration(const rapidjson::Value& struct_def) {
   );
 
   SetId(struct_declaration, struct_def);
-  SetLine(struct_declaration, struct_def);
+  SetLineOrColumn(struct_declaration, struct_def);
 
   // Register type
   Type::Struct(struct_declaration);
@@ -491,7 +497,7 @@ Identifier* ParseIdentifier(const rapidjson::Value& identifier_def) {
   Identifier* identifier = new Identifier(identifier_def[ATOM_VALUE_ATTR].GetString());
 
   SetId(identifier, identifier_def);
-  SetLine(identifier, identifier_def);
+  SetLineOrColumn(identifier, identifier_def);
 
   return identifier;
 }
@@ -502,7 +508,7 @@ Boolean* ParseBoolean(const rapidjson::Value& boolean_def) {
   Boolean* boolean = new Boolean(boolean_def[ATOM_VALUE_ATTR].GetBool());
 
   SetId(boolean, boolean_def);
-  SetLine(boolean, boolean_def);
+  SetLineOrColumn(boolean, boolean_def);
 
   return boolean;
 }
@@ -522,7 +528,7 @@ Integer* ParseInteger(const rapidjson::Value& integer_def) {
   Integer* integer = new Integer(value);
 
   SetId(integer, integer_def);
-  SetLine(integer, integer_def);
+  SetLineOrColumn(integer, integer_def);
 
   return integer;
 }
@@ -533,7 +539,7 @@ Double* ParseDouble(const rapidjson::Value& double_def) {
   Double* double_ = new  Double(double_def[ATOM_VALUE_ATTR].GetDouble());
 
   SetId(double_, double_def);
-  SetLine(double_, double_def);
+  SetLineOrColumn(double_, double_def);
 
   return double_;
 }
@@ -544,7 +550,7 @@ String* ParseString(const rapidjson::Value& string_def) {
   String* string = new String(string_def[ATOM_VALUE_ATTR].GetString());
 
   SetId(string, string_def);
-  SetLine(string, string_def);
+  SetLineOrColumn(string, string_def);
 
   return string;
 }
@@ -565,7 +571,7 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def) {
       arguments);
 
   SetId(function_call, function_call_def);
-  SetLine(function_call, function_call_def);
+  SetLineOrColumn(function_call, function_call_def);
 
   return function_call;
 }
@@ -589,7 +595,7 @@ NotSupported* ParseNotSupported(const rapidjson::Value& notsupported_def) {
   );
 
   SetId(unsupported, notsupported_def);
-  SetLine(unsupported, notsupported_def);
+  SetLineOrColumn(unsupported, notsupported_def);
 
   return unsupported;
 }

@@ -3,7 +3,6 @@
   "statements": [
     {
       "id": 1,
-      "line": 4,
       "type": "function-declaration",
       "name": "fibonacci",
       "return-type": {

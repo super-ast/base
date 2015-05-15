@@ -102,6 +102,7 @@ Attribute    | Value
 Attribute    | Value
 -------------|-------------
 `line`*      | `int`
+`column`*    | `int`
 
 ### Conditional
 Attribute    | Value
