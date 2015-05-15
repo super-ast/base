@@ -45,6 +45,5 @@ include_directories(
     vendor/rapidjson/include
 )
 
-add_executable(printer src/super_ast/analyzer/printer.cpp ${SOURCE_FILES})
-add_executable(grapher src/super_ast/analyzer/grapher.cpp ${SOURCE_FILES})
-add_executable(useless_conditionals src/super_ast/analyzer/useless_conditionals.cpp ${SOURCE_FILES})
+set(SUPER_AST_BASE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE INTERNAL "DIRS")
+add_library(super_ast-base ${SOURCE_FILES})
