@@ -11,20 +11,6 @@ class StructDeclaration;
 */
 class Type {
 public:
-  static Type* Void();
-  static Type* Boolean();
-  static Type* Integer();
-  static Type* Double();
-  static Type* String();
-  static Type* Vector(Type* subtype);
-  static Type* Struct(StructDeclaration* struct_declaration);
-  static Type* ByName(const std::string& name);
-
-  bool operator==(const Type& type) const;
-  bool operator!=(const Type& type);
-  virtual std::string Representation() const;
-
-private:
   enum Native {
     VOID,
     BOOLEAN,
@@ -35,6 +21,21 @@ private:
     STRUCT
   };
 
+  static Type* Void();
+  static Type* Boolean();
+  static Type* Integer();
+  static Type* Double();
+  static Type* String();
+  static Type* Vector(Type* subtype);
+  static Type* Struct(StructDeclaration* struct_declaration);
+  static Type* ByName(const std::string& name);
+
+  bool is(Native type) const;
+  bool operator==(const Type& type) const;
+  bool operator!=(const Type& type);
+  virtual std::string Representation() const;
+
+private:
   Native type_;
   Declaration* type_definition_;
   std::vector<Type*> subtypes_;
