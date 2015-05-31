@@ -35,5 +35,6 @@ DELEGATE(Boolean, Atom);
 DELEGATE(Integer, Atom);
 DELEGATE(Double, Atom);
 DELEGATE(String, Atom);
+DELEGATE(Tuple, Atom);
 DELEGATE(NotSupported, Atom);
 }
