@@ -40,6 +40,7 @@
 #include "super_ast/node/statement/expression/atom/integer.hpp"
 #include "super_ast/node/statement/expression/atom/double.hpp"
 #include "super_ast/node/statement/expression/atom/string.hpp"
+#include "super_ast/node/statement/expression/atom/tuple.hpp"
 #include "super_ast/node/statement/expression/atom/not_supported.hpp"
 
 // Parser

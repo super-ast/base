@@ -14,7 +14,8 @@ const std::string NativeStrings[] = {
     "double",
     "string",
     "vector",
-    "struct"
+    "struct",
+    "tuple"
 };
 }
 
@@ -114,6 +115,11 @@ Type* Type::Struct(StructDeclaration* struct_declaration) {
   Type* struct_type = new Type(STRUCT, struct_declaration);
   named_types[struct_declaration->name()] = struct_type;
   return struct_type;
+}
+
+
+Type *Type::Tuple(const std::vector<Type*> &subtypes) {
+  return new Type(TUPLE, subtypes);
 }
 
 Type* Type::ByName(const std::string& name) {

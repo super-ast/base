@@ -1,0 +1,50 @@
+{
+  "id": 0,
+  "statements": [
+    {
+      "id": 1,
+      "type": "function-declaration",
+      "name": "tuple_example",
+      "parameters": [],
+      "return-type": {
+        "id": 2,
+        "name": "tuple",
+        "data-types": [
+          {
+            "id": 3,
+            "name": "bool"
+          },
+          {
+            "id": 4,
+            "name": "int"
+          }
+        ]
+      },
+      "block": {
+        "id": 5,
+        "statements": [
+          {
+            "id": 6,
+            "type": "return",
+            "expression": {
+              "id": 7,
+              "type": "tuple",
+              "values": [
+                {
+                  "id": 8,
+                  "type": "bool",
+                  "value": true
+                },
+                {
+                  "id": 9,
+                  "type": "int",
+                  "value": 0
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -94,12 +94,11 @@ Attribute    | Value
 `type`       | `"string"`
 `value`      | `string`
 
-#### Not Supported
-Attribute     | Value
---------------|-------------
-`type`        | `string(warning, error)`
-`value`       | `string`
-`description`*| `string`
+#### Tuple
+Attribute    | Value
+-------------|-------------
+`type`       | `"tuple"`
+`values`     | `array[Expression]`
 
 #### Function call
 Attribute    | Value
@@ -107,6 +106,13 @@ Attribute    | Value
 `type`       | `"function-call"`
 `name`       | `string`
 `arguments`  | `array[Expression]`
+
+#### Not Supported
+Attribute     | Value
+--------------|-------------
+`type`        | `string(warning, error)`
+`value`       | `string`
+`description`*| `string`
 
 #### Declaration
 ##### FunctionDeclaration
@@ -146,6 +152,12 @@ Attribute    | Value
 -------------|-------------
 `name`       | `"vector"`
 `data-type`  | `TypeReference`
+
+### Tuple
+Attribute    | Value
+-------------|-------------
+`name`       | `"tuple"`
+`data-types` | `array[TypeReference]`
 
 # Visitor pattern example
 The `printer` analyzer shows a simple visitor that prints visited nodes properly indented:

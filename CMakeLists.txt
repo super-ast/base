@@ -33,6 +33,7 @@ set(SOURCE_FILES
     src/super_ast/node/statement/expression/atom/integer.cpp
     src/super_ast/node/statement/expression/atom/double.cpp
     src/super_ast/node/statement/expression/atom/string.cpp
+    src/super_ast/node/statement/expression/atom/tuple.cpp
     src/super_ast/node/statement/expression/atom/not_supported.cpp
 
     src/super_ast/node/statement/loop.cpp

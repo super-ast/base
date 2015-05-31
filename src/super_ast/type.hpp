@@ -18,7 +18,8 @@ public:
     DOUBLE,
     STRING,
     VECTOR,
-    STRUCT
+    STRUCT,
+    TUPLE
   };
 
   static Type* Void();
@@ -28,6 +29,8 @@ public:
   static Type* String();
   static Type* Vector(Type* subtype);
   static Type* Struct(StructDeclaration* struct_declaration);
+  static Type* Tuple(const std::vector<Type*>& subtypes);
+
   static Type* ByName(const std::string& name);
 
   bool is(Native type) const;

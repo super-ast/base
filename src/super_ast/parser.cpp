@@ -62,6 +62,10 @@ namespace {
 // Atom
 #define ATOM_VALUE_ATTR "value"
 
+// Tuple
+#define TUPLE_VALUES_ATTR     "values"
+#define TUPLE_DATA_TYPES_ATTR "data-types"
+
 // Type
 #define TYPE_NAME_ATTR "name"
 
@@ -91,6 +95,7 @@ StructDeclaration* ParseStructDeclaration(const rapidjson::Value& struct_def);
 TypeReference* ParseTypeReference(const rapidjson::Value& type_def);
 Type* ParseType(const rapidjson::Value& type_def);
 Type* ParseVectorType(const rapidjson::Value& vector_type_def);
+Type* ParseTupleType(const rapidjson::Value& tuple_type_def);
 Type* FindTypeByName(const rapidjson::Value& type_def);
 Return* ParseReturn(const rapidjson::Value& return_def);
 Conditional* ParseConditional(const rapidjson::Value& conditional_def);
@@ -102,6 +107,7 @@ Boolean* ParseBoolean(const rapidjson::Value& boolean_def);
 Integer* ParseInteger(const rapidjson::Value& integer_def);
 Double* ParseDouble(const rapidjson::Value& double_def);
 String* ParseString(const rapidjson::Value& string_def);
+Tuple* ParseTuple(const rapidjson::Value& tuple_def);
 FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def);
 NotSupported* ParseNotSupported(const rapidjson::Value& notsupported_def);
 
@@ -132,7 +138,8 @@ std::map<std::string, TypeCreator> data_types = {
 
 typedef Type* (*TypeParser)(const rapidjson::Value&);
 std::map<std::string, TypeParser> type_parsers = {
-    {"vector", ParseVectorType}
+    {"vector", ParseVectorType},
+    {"tuple",  ParseTupleType}
 };
 
 std::map<std::string, UnaryOperator::Type> unary_operator_types = {
@@ -180,6 +187,7 @@ std::map<std::string, AtomParser> atom_parsers = {
     {"string",        (AtomParser) ParseString},
     {"double",        (AtomParser) ParseDouble},
     {"function-call", (AtomParser) ParseFunctionCall},
+    {"tuple",         (AtomParser) ParseTuple},
     {"warning",       (AtomParser) ParseNotSupported},
     {"error",         (AtomParser) ParseNotSupported}
 };
@@ -295,6 +303,19 @@ Type* ParseType(const rapidjson::Value& type_def) {
 Type* ParseVectorType(const rapidjson::Value& type_def) {
   assert_object(type_def, {VECTOR_DATA_TYPE_ATTR});
   return Type::Vector(ParseType(type_def[VECTOR_DATA_TYPE_ATTR]));
+}
+
+Type* ParseTupleType(const rapidjson::Value& type_def) {
+  assert_array(type_def, {TUPLE_DATA_TYPES_ATTR});
+
+  const rapidjson::Value& subtypes_def = type_def[TUPLE_DATA_TYPES_ATTR];
+  std::vector<Type*> subtypes;
+
+  for(int i = 0; i < subtypes_def.Size(); ++i) {
+    subtypes.push_back(ParseType(subtypes_def[i]));
+  }
+
+  return Type::Tuple(subtypes);
 }
 
 Type* FindTypeByName(const rapidjson::Value& type_def) {
@@ -583,6 +604,24 @@ FunctionCall* ParseFunctionCall(const rapidjson::Value& function_call_def) {
   SetLineOrColumn(function_call, function_call_def);
 
   return function_call;
+}
+
+Tuple* ParseTuple(const rapidjson::Value& tuple_def) {
+  assert_array(tuple_def, {TUPLE_VALUES_ATTR});
+
+  std::vector<Expression*> values;
+  const rapidjson::Value& values_def = tuple_def[TUPLE_VALUES_ATTR];
+
+  for(int i = 0; i < values_def.Size(); ++i) {
+    values.push_back(ParseExpression(values_def[i]));
+  }
+
+  Tuple* tuple = new Tuple(values);
+
+  SetId(tuple, tuple_def);
+  SetLineOrColumn(tuple, tuple_def);
+
+  return tuple;
 }
 
 NotSupported* ParseNotSupported(const rapidjson::Value& notsupported_def) {
