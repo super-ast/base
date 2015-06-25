@@ -16,8 +16,8 @@ Attribute    | Value
 ## Statement
 Attribute    | Value
 -------------|-------------
-`line*`      | `int`
-`column*`    | `int`
+`line*`      | `int` (starting at 0)
+`column*`    | `int` (starting at 0)
 
 ### Conditional
 Attribute    | Value
