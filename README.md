@@ -16,8 +16,8 @@ Attribute    | Value
 ## Statement
 Attribute    | Value
 -------------|-------------
-`line`*      | `int`
-`column`*    | `int`
+`line*`      | `int`
+`column*`    | `int`
 
 ### Conditional
 Attribute    | Value
@@ -25,7 +25,7 @@ Attribute    | Value
 `type`       | `"conditional"`
 `condition`  | `Expression`
 `then`       | `Block`
-`else`*      | `Block`
+`else*`      | `Block`
 
 ### Return
 Attribute    | Value
@@ -112,7 +112,7 @@ Attribute     | Value
 --------------|-------------
 `type`        | `string(warning, error)`
 `value`       | `string`
-`description`*| `string`
+`description*`| `string`
 
 #### Declaration
 ##### FunctionDeclaration
@@ -130,9 +130,9 @@ Attribute      | Value
 `type`         | `"variable-declaration"`
 `name`         | `string`
 `data-type`    | `TypeReference`
-`is_reference`*| `bool` (default: `false`)
-`is_constant`* | `bool` (default: `false`)
-`init`*        | `Expression` (default: `null`)
+`is_reference*`| `bool` (default: `false`)
+`is_constant*` | `bool` (default: `false`)
+`init*`        | `Expression` (default: `null`)
 
 ##### StructDeclaration
 Attribute      | Value
