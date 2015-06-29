@@ -1,15 +1,15 @@
 #include "statement.hpp"
 
 namespace super_ast {
-Statement::Statement() : line_(0) {
+Statement::Statement() : line_(-1), column_(-1) {
 
 }
 
-unsigned int Statement::line() const {
+int Statement::line() const {
   return line_;
 }
 
-unsigned int Statement::column() const {
+int Statement::column() const {
   return column_;
 }
 
